@@ -1,0 +1,2333 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio Aura — Arquitetura de Interiores Autoral · São Paulo</title>
+<meta name="description" content="Studio Aura: arquitetura de interiores de alto padrão em São Paulo. Projetos residenciais autorais assinados por Marina Vasconcelos." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================================
+   STUDIO AURA — DESIGN SYSTEM
+   Paleta: dark warm near-black + dourado dessaturado (luxo discreto)
+   Tipografia: Cormorant Garamond (display) + Outfit (body) + JetBrains Mono (meta)
+   ========================================================================= */
+
+:root {
+  /* Surfaces — warm near-blacks, nunca #000 puro */
+  --bg:            #0C0B09;
+  --bg-raised:    #131210;
+  --bg-sunken:    #080706;
+  --surface:      #1A1813;
+  --surface-hi:   #23201A;
+
+  /* Lines */
+  --line:         rgba(201, 168, 106, 0.10);
+  --line-strong:  rgba(201, 168, 106, 0.22);
+  --line-warm:    rgba(237, 230, 214, 0.06);
+
+  /* Text */
+  --fg:           #EDE6D6;
+  --fg-soft:      #CFC6B3;
+  --fg-muted:     #8E8676;
+  --fg-subtle:    #5A5448;
+  --fg-dim:       #3B372F;
+
+  /* Accent — dourado discreto (saturação controlada) */
+  --gold:         #C9A86A;
+  --gold-soft:    #B59558;
+  --gold-deep:    #8A7340;
+  --gold-glow:    rgba(201, 168, 106, 0.18);
+
+  /* Type */
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-sans:    "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* Scale */
+  --step--2: clamp(0.70rem, 0.68rem + 0.08vw, 0.75rem);
+  --step--1: clamp(0.82rem, 0.79rem + 0.12vw, 0.88rem);
+  --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.10rem);
+  --step-1:  clamp(1.20rem, 1.14rem + 0.30vw, 1.35rem);
+  --step-2:  clamp(1.50rem, 1.38rem + 0.60vw, 1.85rem);
+  --step-3:  clamp(2.00rem, 1.75rem + 1.25vw, 2.85rem);
+  --step-4:  clamp(2.80rem, 2.35rem + 2.25vw, 4.40rem);
+  --step-5:  clamp(3.80rem, 3.00rem + 4.00vw, 7.00rem);
+  --step-6:  clamp(4.80rem, 3.80rem + 5.00vw, 9.20rem);
+
+  /* Layout */
+  --container:   1440px;
+  --gutter:      clamp(1.25rem, 3vw, 2.5rem);
+  --section-y:   clamp(6rem, 12vw, 12rem);
+
+  /* Motion */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-both:   cubic-bezier(0.65, 0, 0.35, 1);
+  --t-fast:      200ms var(--ease-out);
+  --t-base:      480ms var(--ease-out);
+  --t-slow:      900ms var(--ease-out);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img, video { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--gold); color: var(--bg); }
+
+/* Grain fixa — performance-safe (fixed + pointer-events:none, nunca em scroll containers) */
+.grain {
+  position: fixed; inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Scroll-progress hairline dourado */
+.progress {
+  position: fixed; top: 0; left: 0;
+  height: 1px;
+  width: 0%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 8px var(--gold-glow);
+  z-index: 200;
+  pointer-events: none;
+  transition: width 60ms linear;
+}
+
+/* ==================== LOADER ==================== */
+
+.loader {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  transition: opacity 900ms var(--ease-out), visibility 0s linear 900ms;
+}
+.loader[data-done="true"] { opacity: 0; visibility: hidden; }
+
+.loader-mark {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: var(--fg);
+  font-variant: small-caps;
+}
+.loader-mark::before, .loader-mark::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+  animation: stretch 1400ms var(--ease-both) infinite alternate;
+}
+@keyframes stretch { from { transform: scaleX(0.2); } to { transform: scaleX(1); } }
+
+/* ==================== NAV ==================== */
+
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.25rem var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(12,11,9,0.88), rgba(12,11,9,0.0));
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  transition: background var(--t-base), border-color var(--t-base), padding var(--t-base);
+  border-bottom: 1px solid transparent;
+}
+.nav[data-scrolled="true"] {
+  background: rgba(8, 7, 6, 0.85);
+  border-bottom-color: var(--line);
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-feature-settings: "lnum";
+  color: var(--fg);
+  position: relative;
+  padding-left: 2.25rem;
+}
+.nav-brand::before {
+  content: "";
+  position: absolute; left: 0; top: 50%;
+  width: 1.5rem; height: 1px;
+  background: var(--gold);
+  transform: translateY(-50%);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--fg-soft);
+}
+.nav-links a {
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color var(--t-fast);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0.15rem;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 420ms var(--ease-out);
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  justify-self: end;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg);
+  padding: 0.7rem 1.3rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+}
+.nav-cta:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.nav-cta:active { transform: scale(0.98); }
+
+.nav-burger {
+  display: none;
+  justify-self: end;
+  width: 34px; height: 34px;
+  position: relative;
+}
+.nav-burger span {
+  position: absolute; left: 6px; right: 6px;
+  height: 1px;
+  background: var(--fg);
+  transition: transform var(--t-base), opacity var(--t-fast);
+}
+.nav-burger span:nth-child(1) { top: 13px; }
+.nav-burger span:nth-child(2) { top: 21px; }
+
+.nav[data-open="true"] .nav-burger span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+.nav[data-open="true"] .nav-burger span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+/* ==================== HERO ==================== */
+
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--fg);
+}
+.hero-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: brightness(0.55) saturate(0.85) contrast(1.05);
+}
+.hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 40%, transparent 0%, rgba(8,7,6,0.55) 100%),
+    linear-gradient(to bottom, rgba(8,7,6,0.2) 0%, rgba(8,7,6,0.0) 30%, rgba(8,7,6,0.85) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: relative;
+  min-height: 100dvh;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: calc(var(--gutter) * 1.5) var(--gutter);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 2rem;
+}
+
+.hero-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.hero-meta span { display: inline-flex; align-items: center; gap: 0.5rem; }
+.hero-meta .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold-glow); animation: breathe 3.4s var(--ease-both) infinite; }
+@keyframes breathe { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+
+.hero-main {
+  align-self: center;
+  width: 100%;
+  max-width: none;
+}
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+.hero-kicker::before {
+  content: "";
+  display: block;
+  width: 3rem; height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin: 0 0 1.75rem;
+  color: var(--fg);
+  text-align: center;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+.hero-title .line { display: block; overflow: hidden; }
+.hero-title .line > span {
+  display: block;
+  transform: translateY(110%);
+  animation: riseIn 1200ms var(--ease-out) forwards;
+}
+.hero-title .line:nth-child(1) > span { animation-delay: 900ms; }
+.hero-title .line:nth-child(2) > span { animation-delay: 1080ms; }
+.hero-title .line:nth-child(3) > span { animation-delay: 1260ms; }
+@keyframes riseIn { to { transform: translateY(0); } }
+
+.hero-sub {
+  font-size: var(--step-1);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--fg-soft);
+  max-width: 42ch;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fade 800ms var(--ease-out) 1500ms forwards;
+}
+@keyframes fade { to { opacity: 1; } }
+
+.hero-actions {
+  display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; align-items: center; justify-content: center;
+  align-self: end;
+  margin-top: clamp(3rem, 10vh, 7rem);
+  padding-bottom: clamp(1rem, 3vh, 2.5rem);
+  opacity: 0;
+  animation: fade 800ms var(--ease-out) 1700ms forwards;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 2rem;
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: transform var(--t-fast), background var(--t-fast), box-shadow var(--t-base);
+  box-shadow: 0 8px 32px -8px var(--gold-glow);
+}
+.btn-primary:hover { background: #D7B87C; transform: translateY(-2px); box-shadow: 0 16px 42px -10px var(--gold-glow); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+.btn-primary .arrow { transition: transform var(--t-base); }
+.btn-primary:hover .arrow { transform: translateX(6px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  padding: 1rem 0;
+  transition: color var(--t-fast);
+  position: relative;
+}
+.btn-ghost::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0.6rem;
+  width: 2.5rem; height: 1px;
+  background: currentColor;
+  transition: width var(--t-base);
+}
+.btn-ghost:hover { color: var(--gold); }
+.btn-ghost:hover::after { width: 4.5rem; }
+
+.hero-foot {
+  display: flex; justify-content: center; align-items: end;
+  padding-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  gap: 2rem;
+}
+.hero-foot .scroll-cue {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  color: var(--fg-soft);
+}
+.hero-foot .scroll-cue::after {
+  content: "";
+  width: 1px; height: 3.5rem;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: drop 2s var(--ease-both) infinite;
+  transform-origin: top;
+}
+@keyframes drop {
+  0%   { transform: scaleY(0); opacity: 0; }
+  40%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
+}
+
+/* ==================== SECTION SHARED ==================== */
+
+.section {
+  position: relative;
+  padding: var(--section-y) 0;
+}
+.section-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center; gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+}
+.section-label::before {
+  content: "";
+  width: 2.5rem; height: 1px;
+  background: var(--gold);
+}
+.section-label .num {
+  font-variant: tabular-nums;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin: 0 0 2rem;
+  max-width: 18ch;
+}
+.section-title em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.section-lede {
+  font-size: var(--step-1);
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--fg-soft);
+  max-width: 54ch;
+}
+
+/* Hairline separador */
+.rule {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+/* ==================== MANIFESTO ==================== */
+
+.manifesto {
+  position: relative;
+  padding: clamp(8rem, 16vw, 14rem) 0 clamp(6rem, 12vw, 10rem);
+  background: var(--bg);
+}
+.manifesto-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+.manifesto-quote {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: var(--step-5);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  max-width: 22ch;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.manifesto-quote::before {
+  content: "“";
+  position: absolute;
+  top: -0.5em; left: -0.6em;
+  font-size: 2.8em;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.35;
+  font-weight: 400;
+}
+.manifesto-quote strong {
+  font-weight: 400;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.manifesto-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 56rem;
+  margin: 3.5rem auto 0;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-align: center;
+}
+.manifesto-meta div { display: grid; gap: 0.5rem; }
+.manifesto-meta strong {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== PROCESSO ==================== */
+
+.processo { background: var(--bg-sunken); }
+
+.processo-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 5rem;
+}
+.processo-head .section-lede { justify-self: end; }
+
+.processo-split {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.processo-media {
+  position: sticky;
+  top: 8rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.processo-media video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.9) contrast(1.05) brightness(0.85);
+}
+.processo-media::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,106,0.0) 40%, rgba(201,168,106,0.08) 100%);
+  pointer-events: none;
+}
+.processo-media-frame {
+  position: absolute; inset: 0.75rem;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+.processo-media-meta {
+  position: absolute;
+  bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  z-index: 2;
+}
+.processo-media-meta .live {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.processo-media-meta .live::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: breathe 2s var(--ease-both) infinite;
+}
+
+.processo-steps {
+  display: grid;
+  gap: clamp(5rem, 10vw, 10rem);
+  padding: 4rem 0 8rem;
+}
+.processo-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.processo-step .num {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  padding-top: 0.5rem;
+  position: relative;
+}
+.processo-step .num::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 2.4rem; bottom: -2rem;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.4;
+}
+.processo-step:last-child .num::after { display: none; }
+
+.processo-step h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-3);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem;
+  color: var(--fg);
+}
+.processo-step h3 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.processo-step p {
+  font-size: var(--step-0);
+  line-height: 1.7;
+  color: var(--fg-soft);
+  margin: 0 0 1.5rem;
+  max-width: 42ch;
+}
+
+.processo-step ul {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.processo-step li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+}
+.processo-step li::before {
+  content: "—";
+  color: var(--gold);
+}
+
+/* ==================== BUILD SEQUENCE (GSAP ScrollTrigger) ==================== */
+
+.build-seq {
+  position: relative;
+  width: 100%;
+  background: var(--bg-sunken);
+}
+
+.build-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg-sunken);
+}
+
+.build-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  background: var(--bg-sunken);
+}
+
+.build-stage::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 120% 90% at center, transparent 55%, rgba(8,7,6,0.45) 100%),
+    linear-gradient(to bottom, rgba(8,7,6,0.15) 0%, transparent 25%, transparent 75%, rgba(8,7,6,0.25) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.build-stage::after {
+  content: "";
+  position: absolute;
+  inset: 2.5vw;
+  border: 1px solid var(--line);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Corner marks & progress label */
+.build-hud {
+  position: absolute;
+  inset: 2.5vw;
+  z-index: 6;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.build-hud > * { position: absolute; display: inline-flex; align-items: center; gap: 0.5rem; }
+.build-hud .tl { top: 0; left: 0; }
+.build-hud .tr { top: 0; right: 0; }
+.build-hud .bl { bottom: 0; left: 0; }
+.build-hud .br { bottom: 0; right: 0; color: var(--gold); font-variant-numeric: tabular-nums; }
+.build-hud .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold-glow);
+  animation: breathe 2s var(--ease-both) infinite;
+}
+
+/* Content blocks (left / right / left) */
+.build-block {
+  position: absolute;
+  top: 50%;
+  max-width: min(420px, 38vw);
+  padding: 2rem 2.25rem;
+  background: rgba(12, 11, 9, 0.62);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  border: 1px solid var(--line-strong);
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(-50%);
+  box-shadow:
+    inset 0 1px 0 rgba(237, 230, 214, 0.05),
+    0 30px 60px -20px rgba(0,0,0,0.6);
+  will-change: transform, opacity;
+}
+.build-block::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem; bottom: 1.25rem;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.5;
+}
+.build-block[data-side="left"] {
+  left: clamp(2rem, 8vw, 8rem);
+}
+.build-block[data-side="left"]::before { left: -0.5rem; }
+
+.build-block[data-side="right"] {
+  right: clamp(2rem, 8vw, 8rem);
+  text-align: right;
+}
+.build-block[data-side="right"]::before { right: -0.5rem; }
+
+.build-block .num {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: inline-flex; align-items: center; gap: 0.75rem;
+}
+.build-block[data-side="left"] .num::before,
+.build-block[data-side="right"] .num::after {
+  content: "";
+  width: 1.5rem; height: 1px;
+  background: var(--gold);
+}
+
+.build-block h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-3);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+.build-block h3 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.build-block p {
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: var(--fg-soft);
+  margin: 0;
+}
+
+@media (max-width: 820px) {
+  .build-block {
+    max-width: calc(100% - 3rem);
+    padding: 1.5rem;
+  }
+  .build-block[data-side="left"],
+  .build-block[data-side="right"] {
+    left: 1.5rem; right: 1.5rem;
+    text-align: left;
+  }
+  .build-block[data-side="right"]::before { right: auto; left: -0.5rem; }
+  .build-hud { inset: 1.25rem; }
+}
+
+/* ==================== PORTFÓLIO ==================== */
+
+.portfolio { background: var(--bg); }
+
+.portfolio-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 4rem;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+.portfolio-head .section-lede {
+  justify-self: end;
+  max-width: 38ch;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.work {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.work .frame {
+  position: relative;
+  overflow: hidden;
+  width: 100%; height: 100%;
+}
+.work img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1600ms var(--ease-out), filter var(--t-base);
+  filter: saturate(0.95) brightness(0.92);
+}
+.work::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,7,6,0.0) 50%, rgba(8,7,6,0.85) 100%);
+  z-index: 2;
+  opacity: 0.7;
+  transition: opacity var(--t-base);
+  pointer-events: none;
+}
+.work::after {
+  content: "";
+  position: absolute; inset: 0.6rem;
+  border: 1px solid transparent;
+  z-index: 3;
+  transition: border-color var(--t-base);
+  pointer-events: none;
+}
+.work:hover img { transform: scale(1.06); filter: saturate(1) brightness(1); }
+.work:hover::before { opacity: 0.9; }
+.work:hover::after { border-color: var(--line-strong); }
+
+.work-caption {
+  position: absolute;
+  left: 1.5rem; right: 1.5rem; bottom: 1.25rem;
+  z-index: 4;
+  display: flex; justify-content: space-between; align-items: end;
+  gap: 1.5rem;
+}
+.work-caption .tag {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.work-caption h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-2);
+  line-height: 1.05;
+  margin: 0.35rem 0 0;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+.work-caption .meta {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.2em;
+  color: var(--fg-soft);
+  white-space: nowrap;
+}
+
+/* Asymmetric spans — 6 works, layout variance ~8 */
+.work-1 { grid-column: span 4; aspect-ratio: 16 / 10; }
+.work-2 { grid-column: span 2; aspect-ratio: 4 / 5; }
+.work-3 { grid-column: span 2; aspect-ratio: 4 / 5; }
+.work-4 { grid-column: span 4; aspect-ratio: 16 / 10; }
+.work-5 { grid-column: span 3; aspect-ratio: 5 / 4; }
+.work-6 { grid-column: span 3; aspect-ratio: 5 / 4; }
+
+.portfolio-foot {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.portfolio-foot p {
+  margin: 0;
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+  max-width: 46ch;
+}
+
+/* ==================== SOBRE ==================== */
+
+.sobre { background: var(--bg-raised); }
+
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.sobre-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--surface);
+}
+.sobre-portrait img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.02);
+}
+.sobre-portrait::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,7,6,0.0) 70%, rgba(8,7,6,0.4) 100%);
+  pointer-events: none;
+}
+.sobre-portrait-cap {
+  position: absolute;
+  bottom: 1.25rem; left: 1.5rem; right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  display: flex; justify-content: space-between;
+}
+
+.sobre-content h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  margin: 0 0 2rem;
+  max-width: 16ch;
+}
+.sobre-content h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.sobre-content p {
+  font-size: var(--step-0);
+  line-height: 1.75;
+  color: var(--fg-soft);
+  margin: 0 0 1.25rem;
+  max-width: 58ch;
+}
+.sobre-content p.lede {
+  font-size: var(--step-1);
+  font-weight: 300;
+  color: var(--fg);
+  line-height: 1.55;
+  margin-bottom: 2rem;
+}
+
+.sobre-credits {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 3rem;
+}
+.sobre-credits dt {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 0.5rem;
+}
+.sobre-credits dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 400;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+
+.sobre-signature {
+  margin-top: 2.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  color: var(--gold);
+  opacity: 0.9;
+}
+
+/* ==================== DEPOIMENTOS ==================== */
+
+.depoimentos {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.depoimentos-head {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+}
+.depoimentos-head .section-label {
+  justify-content: center;
+}
+.depoimentos-head .section-label::before {
+  display: none;
+}
+.depoimentos-head h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.depoimentos-head h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.depoimentos-stack {
+  display: grid;
+  gap: clamp(4rem, 8vw, 7rem);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.depoimento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  position: relative;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+.depoimento:nth-child(odd) {
+  padding-right: clamp(2rem, 10vw, 8rem);
+}
+.depoimento:nth-child(even) {
+  padding-left: clamp(2rem, 10vw, 8rem);
+  text-align: right;
+  justify-items: end;
+}
+
+.depoimento-quote {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: var(--step-3);
+  line-height: 1.25;
+  color: var(--fg);
+  margin: 0;
+  max-width: 32ch;
+  position: relative;
+}
+.depoimento-quote::before {
+  content: "“";
+  position: absolute;
+  left: -0.4em; top: -0.3em;
+  font-size: 2.2em;
+  color: var(--gold);
+  opacity: 0.3;
+  line-height: 1;
+  font-style: normal;
+}
+.depoimento:nth-child(even) .depoimento-quote::before {
+  left: auto; right: -0.4em;
+}
+
+.depoimento-attr {
+  display: flex; align-items: center; gap: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.depoimento-attr .bar {
+  display: block;
+  width: 2.5rem; height: 1px;
+  background: var(--gold);
+}
+.depoimento-attr strong {
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--fg);
+}
+
+/* ==================== CONTATO ==================== */
+
+.contato { background: var(--bg-sunken); }
+
+.contato-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.contato-intro h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin: 0 0 2rem;
+  max-width: 13ch;
+}
+.contato-intro h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.contato-intro p {
+  font-size: var(--step-0);
+  line-height: 1.7;
+  color: var(--fg-soft);
+  max-width: 44ch;
+  margin: 0 0 2.5rem;
+}
+
+.contato-channels {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.channel {
+  display: flex; align-items: center; gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  transition: border-color var(--t-base), background var(--t-base), transform var(--t-fast);
+  background: linear-gradient(135deg, transparent, rgba(201,168,106,0.015));
+}
+.channel:hover {
+  border-color: var(--line-strong);
+  background: linear-gradient(135deg, rgba(201,168,106,0.02), rgba(201,168,106,0.06));
+  transform: translateY(-1px);
+}
+.channel .ico {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  display: grid; place-items: center;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.channel .ico svg { width: 18px; height: 18px; }
+.channel .label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 0.25rem;
+}
+.channel .value {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+
+.channel.whatsapp {
+  background: linear-gradient(135deg, rgba(201,168,106,0.06), rgba(201,168,106,0.02));
+  border-color: var(--line-strong);
+}
+.channel.whatsapp:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.channel.whatsapp:hover .ico { color: var(--bg); border-color: rgba(12,11,9,0.2); }
+.channel.whatsapp:hover .label,
+.channel.whatsapp:hover .value { color: var(--bg); }
+
+.contato-meta {
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.contato-meta strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--fg);
+  margin-top: 0.4rem;
+}
+
+/* Form */
+.form {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: clamp(2rem, 4vw, 3rem);
+  display: grid;
+  gap: 1.75rem;
+  position: relative;
+}
+.form::before {
+  content: "";
+  position: absolute; inset: 0.5rem;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.field { display: grid; gap: 0.5rem; position: relative; z-index: 1; }
+.field label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.field input, .field textarea, .field select {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
+  color: var(--fg);
+  font: inherit;
+  font-size: var(--step-0);
+  outline: none;
+  transition: border-color var(--t-fast), color var(--t-fast);
+  font-family: var(--font-sans);
+}
+.field textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.field input::placeholder, .field textarea::placeholder { color: var(--fg-subtle); font-weight: 300; }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--gold); }
+.field.error input, .field.error textarea { border-color: #B55A3C; }
+.field .err {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  color: #C57C60;
+  margin-top: 0.3rem;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+.field.error .err { opacity: 1; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-submit {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 1rem;
+  background: var(--gold);
+  color: var(--bg);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 1.2rem 2rem;
+  border-radius: 999px;
+  transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-base);
+  box-shadow: 0 8px 28px -8px var(--gold-glow);
+  position: relative; z-index: 1;
+}
+.form-submit:hover { background: #D7B87C; transform: translateY(-2px); }
+.form-submit:active { transform: translateY(0) scale(0.98); }
+.form-submit[data-state="sending"] { pointer-events: none; opacity: 0.7; }
+.form-submit[data-state="sending"] .arrow { animation: spin 1.2s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-note {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  color: var(--fg-subtle);
+  line-height: 1.7;
+}
+
+.form-success {
+  display: none;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid var(--line-strong);
+  background: rgba(201,168,106,0.04);
+  border-radius: 2px;
+  position: relative; z-index: 1;
+}
+.form-success[data-show="true"] { display: grid; gap: 0.5rem; }
+.form-success h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-2);
+  margin: 0;
+  color: var(--gold);
+}
+.form-success p { color: var(--fg-soft); margin: 0; }
+
+/* ==================== RODAPÉ ==================== */
+
+.rodape {
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--line);
+  padding: clamp(4rem, 8vw, 6rem) 0 2.5rem;
+}
+.rodape-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  gap: 4rem;
+}
+
+.rodape-top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.rodape-brand {
+  display: grid; gap: 1.5rem;
+  max-width: 28ch;
+}
+.rodape-brand .mark {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  letter-spacing: 0.2em;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.rodape-brand p {
+  color: var(--fg-muted);
+  font-size: var(--step--1);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.rodape-col h4 {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 1.25rem;
+  font-weight: 400;
+}
+.rodape-col ul {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 0.75rem;
+  font-size: var(--step-0);
+  color: var(--fg-soft);
+}
+.rodape-col li a { transition: color var(--t-fast); }
+.rodape-col li a:hover { color: var(--gold); }
+
+.rodape-social {
+  display: flex; gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.rodape-social a {
+  width: 42px; height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--fg-soft);
+  transition: all var(--t-fast);
+}
+.rodape-social a:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+.rodape-social svg { width: 16px; height: 16px; }
+
+.rodape-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.rodape-bottom a:hover { color: var(--gold); }
+
+/* ==================== REVEAL ANIMATIONS ==================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal="up"].in { opacity: 1; transform: translateY(0); }
+[data-reveal="fade"] { transform: none; }
+[data-reveal="fade"].in { opacity: 1; }
+
+[data-reveal-lines] > * {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+}
+[data-reveal-lines].in > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0ms; }
+[data-reveal-lines].in > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+[data-reveal-lines].in > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 240ms; }
+[data-reveal-lines].in > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 360ms; }
+[data-reveal-lines].in > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
+[data-reveal-lines].in > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 600ms; }
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1024px) {
+  .hero-grid { padding-top: 2rem; padding-bottom: 2rem; }
+  .hero-meta { padding-top: 4.5rem; }
+  .hero-main { max-width: 100%; }
+  .processo-head,
+  .portfolio-head,
+  .sobre-grid,
+  .contato-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .processo-head .section-lede,
+  .portfolio-head .section-lede { justify-self: start; }
+  .processo-split { grid-template-columns: 1fr; }
+  .processo-media { position: relative; top: 0; aspect-ratio: 16 / 11; }
+  .processo-steps { padding: 3rem 0 1rem; gap: 3.5rem; }
+  .rodape-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+}
+
+@media (max-width: 820px) {
+  .nav-links, .nav-cta { display: none; }
+  .nav-burger { display: block; }
+  .nav[data-open="true"] .mobile-menu { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .hero-meta { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .work-1, .work-4 { grid-column: span 2; }
+  .work-2, .work-3 { grid-column: span 1; }
+  .work-5, .work-6 { grid-column: span 1; aspect-ratio: 4/5; }
+  .depoimento, .depoimento:nth-child(even) { padding: 0; text-align: left; justify-items: start; }
+  .depoimento:nth-child(even) .depoimento-quote::before { left: -0.4em; right: auto; }
+  .manifesto-meta { grid-template-columns: 1fr; gap: 1.5rem; }
+  .sobre-credits { grid-template-columns: 1fr; }
+  .rodape-top { grid-template-columns: 1fr; gap: 2.5rem; }
+  .field-row { grid-template-columns: 1fr; }
+  .rodape-bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .portfolio-foot { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 72px; left: 0; right: 0;
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 2rem var(--gutter);
+  display: grid;
+  gap: 1rem;
+  transform: translateY(-20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--t-base), opacity var(--t-base);
+  z-index: 99;
+}
+@media (min-width: 821px) { .mobile-menu { display: none; } }
+.mobile-menu a {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  color: var(--fg);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu a:last-child { border: 0; color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal], [data-reveal-lines] > * { opacity: 1; transform: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Grain overlay (fixed, pointer-events:none) -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Scroll progress -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- Initial loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-mark">Aura</div>
+</div>
+
+<!-- ========== NAV ========== -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#top" aria-label="Studio Aura — voltar ao topo">Studio Aura</a>
+  <nav class="nav-links" aria-label="Navegação principal">
+    <a href="#processo">Processo</a>
+    <a href="#portfolio">Projetos</a>
+    <a href="#sobre">Studio</a>
+    <a href="#depoimentos">Vozes</a>
+  </nav>
+  <a class="nav-cta" href="#contato">
+    Agendar visita
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+  </a>
+  <button class="nav-burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#processo">Processo</a>
+    <a href="#portfolio">Projetos</a>
+    <a href="#sobre">Studio</a>
+    <a href="#depoimentos">Vozes</a>
+    <a href="#contato">Agendar visita →</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" aria-label="Apresentação">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/projeto-sala.png">
+      <source src="assets/interior-dark-video.mp4" type="video/mp4">
+    </video>
+
+    <div class="hero-grid">
+      <div class="hero-meta">
+        <span><span class="dot"></span> Em agenda · 2026</span>
+        <span>São Paulo · 23°34′ S</span>
+      </div>
+
+      <div class="hero-main">
+        <h1 class="hero-title">
+          <span class="line"><span>Interiores</span></span>
+          <span class="line"><span>que respiram</span></span>
+          <span class="line"><span><em>luxo silencioso.</em></span></span>
+        </h1>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="#portfolio">
+          Conheça os projetos
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-foot">
+        <span class="scroll-cue">Role para descobrir</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROCESSO / BUILD SEQUENCE ========== -->
+  <section class="processo" id="processo" aria-label="Processo de trabalho">
+    <div class="build-seq" id="buildSeq">
+      <div class="build-stage" id="buildStage">
+        <video class="build-video" id="buildVideo" autoplay muted playsinline preload="auto" poster="assets/projeto-sala.png">
+          <source src="assets/video-camadas.mp4" type="video/mp4">
+        </video>
+
+        <div class="build-hud" aria-hidden="true">
+          <span class="tl"><span class="dot"></span> Studio Aura · Build Sequence</span>
+          <span class="tr">03 Atos · Um gesto contínuo</span>
+          <span class="bl">Role para avançar o projeto</span>
+          <span class="br" id="buildProgress">00%</span>
+        </div>
+
+        <article class="build-block" data-block="1" data-side="left">
+          <div class="num">Ato 01</div>
+          <h3>Escuta e <em>leitura</em> do lugar</h3>
+          <p>
+            Partimos de uma imersão silenciosa — visita ao imóvel, ao bairro, e sobretudo
+            a quem vai habitar. Desse encontro nasce um dossiê sensorial: luz, temperatura,
+            ritmo e memória. Nada é decidido antes dessa leitura.
+          </p>
+        </article>
+
+        <article class="build-block" data-block="2" data-side="right">
+          <div class="num">Ato 02</div>
+          <h3>Projeto em <em>camadas</em></h3>
+          <p>
+            Desenhamos em sobreposição: planta, iluminação, mobiliário, materialidade, arte.
+            Cada camada é testada em renderizações foto-reais e maquetes físicas de bancada
+            antes de chegar à obra. Nada aparece por acaso.
+          </p>
+        </article>
+
+        <article class="build-block" data-block="3" data-side="left">
+          <div class="num">Ato 03</div>
+          <h3>Execução e <em>entrega</em> coreografada</h3>
+          <p>
+            Acompanhamos a obra presencialmente, com visitas semanais. A entrega é cenográfica —
+            ambientamos a casa inteira, das toalhas à trilha sonora. A primeira noite já
+            pertence a quem mora.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+    
+  <!-- ========== MANIFESTO ========== -->
+  <section class="manifesto" aria-label="Manifesto">
+    <div class="manifesto-inner">
+      <blockquote class="manifesto-quote" data-reveal="up">
+        O verdadeiro luxo se mede em <strong>silêncio, matéria e luz</strong> —
+        não no que salta aos olhos, mas no que permanece.
+      </blockquote>
+
+      <dl class="manifesto-meta" data-reveal-lines>
+        <div>
+          <strong>47</strong>
+          <span>Projetos entregues</span>
+        </div>
+        <div>
+          <strong>9 anos</strong>
+          <span>De autoria contínua</span>
+        </div>
+        <div>
+          <strong>São Paulo</strong>
+          <span>Ateliê próprio · Jardins</span>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+
+
+  <!-- ========== PORTFÓLIO ========== -->
+  <section class="section portfolio" id="portfolio" aria-label="Portfólio">
+    <div class="section-inner">
+      <div class="portfolio-head">
+        <div data-reveal="up">
+          <div class="section-label"><span class="num">02 /</span> Seleção recente</div>
+          <h2 class="section-title">Projetos <em>assinados</em> nos últimos anos.</h2>
+        </div>
+        <p class="section-lede" data-reveal="up" style="--d:150ms;">
+          Seis ambientes escolhidos por aquilo que melhor traduz o estudio:
+          discrição material, presença da luz, e o cuidado obsessivo com o detalhe.
+        </p>
+      </div>
+
+      <div class="portfolio-grid">
+        <article class="work work-1" data-reveal="up">
+          <div class="frame"><img src="assets/projeto-sala.png" alt="Sala de estar em tons terrosos com iluminação cênica"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Residencial · Jardins</div>
+              <h3>Casa Aurélia</h3>
+            </div>
+            <div class="meta">2025 · 412 m²</div>
+          </div>
+        </article>
+
+        <article class="work work-2" data-reveal="up" style="--d:80ms;">
+          <div class="frame"><img src="assets/projeto-quarto.png" alt="Suíte master com cabeceira em veludo e enxoval natural"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Suíte · Higienópolis</div>
+              <h3>Quarto Linhares</h3>
+            </div>
+            <div class="meta">2024</div>
+          </div>
+        </article>
+
+        <article class="work work-3" data-reveal="up" style="--d:160ms;">
+          <div class="frame"><img src="assets/projeto-terracota.png" alt="Ambiente em tons terracota com mobiliário curvo"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Studio · Vila Madalena</div>
+              <h3>Residência Terra</h3>
+            </div>
+            <div class="meta">2024</div>
+          </div>
+        </article>
+
+        <article class="work work-4" data-reveal="up">
+          <div class="frame"><img src="assets/projeto-sala-2.png" alt="Living com pé-direito duplo e obra de arte"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Cobertura · Vila Nova</div>
+              <h3>Penthouse Calábria</h3>
+            </div>
+            <div class="meta">2024 · 640 m²</div>
+          </div>
+        </article>
+
+        <article class="work work-5" data-reveal="up" style="--d:80ms;">
+          <div class="frame"><img src="assets/projeto-biblioteca.png" alt="Biblioteca particular com estantes em madeira escura"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Biblioteca · Pinheiros</div>
+              <h3>Gabinete Moretti</h3>
+            </div>
+            <div class="meta">2023</div>
+          </div>
+        </article>
+
+        <article class="work work-6" data-reveal="up" style="--d:160ms;">
+          <div class="frame"><img src="assets/projeto-cozinha.png" alt="Cozinha integrada com bancada em mármore e iluminação quente"></div>
+          <div class="work-caption">
+            <div>
+              <div class="tag">Residencial · Itaim</div>
+              <h3>Cozinha Veneto</h3>
+            </div>
+            <div class="meta">2023</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="portfolio-foot" data-reveal="up">
+        <p>
+          Outros dezesseis projetos residenciais e três projetos de hospitality
+          estão disponíveis sob solicitação, em portfólio impresso.
+        </p>
+        <a class="btn-ghost" href="#contato">Solicitar portfólio completo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SOBRE ========== -->
+  <section class="section sobre" id="sobre" aria-label="Sobre o studio">
+    <div class="section-inner">
+      <div class="sobre-grid">
+        <figure class="sobre-portrait" data-reveal="fade">
+          <img src="https://picsum.photos/seed/marina-vasconcelos-studio/900/1125"
+               alt="Retrato de Marina Vasconcelos, arquiteta fundadora do Studio Aura">
+          <figcaption class="sobre-portrait-cap">
+            <span>Marina V.</span>
+            <span>Fundadora · São Paulo</span>
+          </figcaption>
+        </figure>
+
+        <div class="sobre-content">
+          <div class="section-label" data-reveal="up"><span class="num">03 /</span> O studio</div>
+          <h2 data-reveal="up" style="--d:80ms;">
+            Feito à mão, <em>no tempo certo.</em>
+          </h2>
+
+          <p class="lede" data-reveal="up" style="--d:160ms;">
+            Sou <strong>Marina Vasconcelos</strong>, arquiteta formada pela FAU-USP,
+            com mestrado em arquitetura de interiores pela Politecnico di Milano.
+            Fundei o Studio Aura em 2017 após uma década em escritórios de referência
+            na Europa — e trouxe comigo uma convicção: projeto bom é aquele que não precisa se explicar.
+          </p>
+
+          <p data-reveal="up" style="--d:200ms;">
+            No Aura trabalhamos com um número restrito de clientes por ano.
+            Cada projeto é conduzido pessoalmente por mim e por um time enxuto de quatro arquitetos,
+            com dedicação quase exclusiva. Não somos rápidos — somos precisos.
+            E acreditamos que o melhor espaço é aquele que envelhece junto com quem o habita.
+          </p>
+
+          <p data-reveal="up" style="--d:240ms;">
+            Entre nossos parceiros contamos com marcenarias italianas, artesãos de Minas,
+            e uma curadoria permanente de arte brasileira contemporânea que se renova a cada projeto.
+          </p>
+
+          <dl class="sobre-credits" data-reveal-lines>
+            <div>
+              <dt>Formação</dt>
+              <dd>FAU-USP · Politecnico di Milano</dd>
+            </div>
+            <div>
+              <dt>Reconhecimento</dt>
+              <dd>Casa Vogue Design · 2022</dd>
+            </div>
+            <div>
+              <dt>Publicações</dt>
+              <dd>AD Brasil, Wallpaper*, Arch Digest</dd>
+            </div>
+            <div>
+              <dt>Ateliê</dt>
+              <dd>R. Artur de Azevedo, 1382 · SP</dd>
+            </div>
+          </dl>
+
+          <div class="sobre-signature" data-reveal="up" style="--d:300ms;">— M. Vasconcelos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DEPOIMENTOS ========== -->
+  <section class="section depoimentos" id="depoimentos" aria-label="Depoimentos">
+    <div class="section-inner">
+      <header class="depoimentos-head">
+        <div class="section-label"><span class="num">04 /</span> Vozes</div>
+        <h2 data-reveal="up">O que dizem <em>os nossos</em>.</h2>
+      </header>
+
+      <div class="depoimentos-stack">
+        <figure class="depoimento" data-reveal="up">
+          <blockquote class="depoimento-quote">
+            Entrei na nossa casa e parei no hall. Não por causa de algo grande —
+            mas porque tudo, até o cheiro do armário, estava certo. A Marina entendeu
+            o que nem nós sabíamos que queríamos.
+          </blockquote>
+          <figcaption class="depoimento-attr">
+            <span class="bar"></span>
+            <span>
+              <strong>Helena Toledo Bastos</strong><br>
+              Cliente · Residencial Jardins · 2024
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="depoimento" data-reveal="up">
+          <blockquote class="depoimento-quote">
+            Contratamos a Aura por recomendação e, no meio da obra, já havíamos
+            indicado para outros dois amigos. O processo é raro: metódico, silencioso,
+            sem surpresa — e ao mesmo tempo profundamente autoral.
+          </blockquote>
+          <figcaption class="depoimento-attr">
+            <span class="bar"></span>
+            <span>
+              <strong>Rafael Monteiro Campos</strong><br>
+              Cliente · Cobertura Vila Nova · 2024
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="depoimento" data-reveal="up">
+          <blockquote class="depoimento-quote">
+            O studio consegue a coisa mais difícil em projeto de interiores: fazer o
+            luxo passar despercebido. Você sente, mas não vê. É exatamente isso o que
+            a gente queria, e que não tínhamos palavras para pedir.
+          </blockquote>
+          <figcaption class="depoimento-attr">
+            <span class="bar"></span>
+            <span>
+              <strong>Beatriz Wollf Azambuja</strong><br>
+              Cliente · Biblioteca Pinheiros · 2023
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTATO ========== -->
+  <section class="section contato" id="contato" aria-label="Contato">
+    <div class="section-inner">
+      <div class="contato-grid">
+        <div class="contato-intro">
+          <div class="section-label" data-reveal="up"><span class="num">05 /</span> Contato</div>
+          <h2 data-reveal="up" style="--d:80ms;">Uma <em>conversa</em> antes de um projeto.</h2>
+          <p data-reveal="up" style="--d:160ms;">
+            Aceitamos um número limitado de novos projetos por ano. O primeiro encontro
+            é sempre presencial, no ateliê ou no imóvel — sem custo e sem compromisso.
+            Conte um pouco sobre o espaço e o momento que você atravessa.
+          </p>
+
+          <div class="contato-channels" data-reveal-lines>
+            <a class="channel whatsapp" href="https://wa.me/5511987326410?text=Ol%C3%A1%20Studio%20Aura%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.5 3.5A10.7 10.7 0 0 0 12.7 1C6.9 1 2.3 5.6 2.3 11.4c0 1.8.5 3.6 1.4 5.1L2 22l5.7-1.5a10.4 10.4 0 0 0 5 1.3h.0c5.8 0 10.4-4.6 10.4-10.4 0-2.8-1.1-5.4-3.1-7.4Z"/><path d="M8.4 7.8c.2-.1.5 0 .6.1l1 1.8c.1.3 0 .6-.1.7l-.6.6c-.1.1-.1.3 0 .5.6 1.2 1.5 2.1 2.6 2.8.2.1.4.1.5 0l.6-.6c.2-.2.5-.2.7-.1l1.8 1c.2.1.3.4.1.6-.3.6-.9 1.2-1.7 1.3-.8.1-1.7-.1-3.6-1.2-1.6-1-2.9-2.3-3.8-3.8-.9-1.5-1-2.3-.8-2.9.1-.6.5-1.1 1-1.3Z" fill="currentColor" stroke="none"/></svg>
+              </span>
+              <span>
+                <span class="label">WhatsApp direto</span>
+                <span class="value">+55 11 98732-6410</span>
+              </span>
+            </a>
+
+            <a class="channel" href="mailto:ateliê@studioaura.com.br">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
+              </span>
+              <span>
+                <span class="label">E-mail do ateliê</span>
+                <span class="value">atelie@studioaura.com.br</span>
+              </span>
+            </a>
+
+            <a class="channel" href="https://maps.google.com/?q=R.+Artur+de+Azevedo+1382+Pinheiros+Sao+Paulo" target="_blank" rel="noopener">
+              <span class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-7.5 7-12.5A7 7 0 0 0 5 9.5C5 14.5 12 22 12 22Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <span>
+                <span class="label">Ateliê — visita agendada</span>
+                <span class="value">R. Artur de Azevedo, 1382 · SP</span>
+              </span>
+            </a>
+          </div>
+
+          <dl class="contato-meta" data-reveal="up">
+            <div>
+              <span>Atendimento</span>
+              <strong>Seg a Sex · 10h — 19h</strong>
+            </div>
+            <div>
+              <span>Agenda 2026</span>
+              <strong>Confirmando Q3</strong>
+            </div>
+          </dl>
+        </div>
+
+        <form class="form" id="contactForm" novalidate data-reveal="up" style="--d:100ms;">
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" placeholder="Como devemos te chamar" required>
+            <span class="err">Precisamos do seu nome.</span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" placeholder="nome@dominio.com" required>
+              <span class="err">Confira o seu e-mail.</span>
+            </div>
+            <div class="field">
+              <label for="telefone">Telefone</label>
+              <input id="telefone" name="telefone" type="tel" placeholder="+55 (11) 9 0000-0000">
+              <span class="err">Número inválido.</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="tipo">Tipo de projeto</label>
+              <select id="tipo" name="tipo" required>
+                <option value="" disabled selected hidden>Selecione uma opção</option>
+                <option>Residencial — apartamento</option>
+                <option>Residencial — casa</option>
+                <option>Cobertura / dúplex</option>
+                <option>Hospitality / boutique</option>
+                <option>Consultoria / curadoria</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="prazo">Início desejado</label>
+              <select id="prazo" name="prazo">
+                <option value="" disabled selected hidden>Quando gostaria de começar</option>
+                <option>Nos próximos 3 meses</option>
+                <option>Entre 3 e 6 meses</option>
+                <option>Ainda estou explorando</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mensagem">Sobre o espaço</label>
+            <textarea id="mensagem" name="mensagem" rows="4" placeholder="Conte rapidamente sobre o imóvel, a metragem, e o momento em que você está."></textarea>
+          </div>
+
+          <button class="form-submit" type="submit" id="submitBtn">
+            <span class="text">Enviar proposta</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+
+          <p class="form-note">
+            Ao enviar, você concorda em ser contatado pelo e-mail ou telefone informados,
+            exclusivamente pela equipe do Studio Aura.
+          </p>
+
+          <div class="form-success" id="formSuccess" aria-live="polite">
+            <h3>Obrigado.</h3>
+            <p>Recebemos sua mensagem. Nossa equipe responderá em até 48 horas úteis.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== RODAPÉ ========== -->
+<footer class="rodape" aria-label="Rodapé">
+  <div class="rodape-inner">
+    <div class="rodape-top">
+      <div class="rodape-brand">
+        <span class="mark">Aura</span>
+        <p>Arquitetura de interiores autoral para residências de alto padrão. São Paulo — Brasil.</p>
+        <div class="rodape-social" aria-label="Redes sociais">
+          <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://pinterest.com/" target="_blank" rel="noopener" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10.5 21 12 12m-1-2a2.5 2.5 0 1 1 5 0c0 2-2 3.5-3.5 3.5"/></svg>
+          </a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7.5v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>
+          </a>
+          <a href="https://behance.net/" target="_blank" rel="noopener" aria-label="Behance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h5a2.5 2.5 0 0 1 0 5H3Zm0 5h5.5a2.75 2.75 0 0 1 0 5.5H3Zm12-3h5M14 14a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="rodape-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#processo">Processo</a></li>
+          <li><a href="#portfolio">Projetos</a></li>
+          <li><a href="#depoimentos">Vozes</a></li>
+        </ul>
+      </div>
+
+      <div class="rodape-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="mailto:atelie@studioaura.com.br">atelie@studioaura.com.br</a></li>
+          <li><a href="https://wa.me/5511987326410" target="_blank" rel="noopener">+55 11 98732-6410</a></li>
+          <li><a href="#contato">Agendar visita</a></li>
+        </ul>
+      </div>
+
+      <div class="rodape-col">
+        <h4>Ateliê</h4>
+        <ul>
+          <li>R. Artur de Azevedo, 1382</li>
+          <li>Pinheiros · SP · 05404-003</li>
+          <li>Seg — Sex · 10h às 19h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rodape-bottom">
+      <span>© 2026 Studio Aura. Todos os direitos reservados.</span>
+      <span>CNPJ 38.214.576/0001-92 · CAU A184.392-6</span>
+      <a href="#top">Topo ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- GSAP core + ScrollTrigger plugin -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Loader ---------- */
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    setTimeout(() => loader.setAttribute('data-done', 'true'), 420);
+  });
+
+  /* ---------- Nav scroll state ---------- */
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const y = window.scrollY;
+    nav.setAttribute('data-scrolled', y > 24 ? 'true' : 'false');
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = Math.min(100, (y / max) * 100) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Mobile burger ---------- */
+  const burger = document.getElementById('burger');
+  burger.addEventListener('click', () => {
+    const open = nav.getAttribute('data-open') === 'true';
+    nav.setAttribute('data-open', open ? 'false' : 'true');
+    burger.setAttribute('aria-expanded', open ? 'false' : 'true');
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      nav.setAttribute('data-open', 'false');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('[data-reveal], [data-reveal-lines]').forEach(el => io.observe(el));
+
+  /* ---------- Form validation + fake submit ---------- */
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  const setError = (field, on) => {
+    const wrap = field.closest('.field');
+    if (wrap) wrap.classList.toggle('error', on);
+  };
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    let ok = true;
+
+    const nome = form.nome;
+    const email = form.email;
+    const tipo = form.tipo;
+
+    if (!nome.value.trim()) { setError(nome, true); ok = false; } else setError(nome, false);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { setError(email, true); ok = false; } else setError(email, false);
+    if (!tipo.value) { setError(tipo, true); ok = false; } else setError(tipo, false);
+
+    if (!ok) return;
+
+    submitBtn.setAttribute('data-state', 'sending');
+    submitBtn.querySelector('.text').textContent = 'Enviando…';
+
+    // Simulated send. Integre aqui com o backend do studio (ex.: Formspree, Resend, API própria).
+    setTimeout(() => {
+      submitBtn.removeAttribute('data-state');
+      submitBtn.querySelector('.text').textContent = 'Enviar proposta';
+      form.querySelectorAll('.field input, .field textarea, .field select').forEach(i => i.value = '');
+      success.setAttribute('data-show', 'true');
+      setTimeout(() => success.removeAttribute('data-show'), 6500);
+    }, 1100);
+  });
+
+  /* ---------- Video polite fallback (autoplay on iOS Low Power) ---------- */
+  document.querySelectorAll('video:not(#buildVideo)').forEach(v => {
+    v.addEventListener('canplay', () => { v.play().catch(() => {}); }, { once: true });
+  });
+
+  /* ---------- Build Sequence · GSAP ScrollTrigger ---------- */
+  const initBuildSequence = () => {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const section   = document.getElementById('buildSeq');
+    const stage     = document.getElementById('buildStage');
+    const video     = document.getElementById('buildVideo');
+    const progress  = document.getElementById('buildProgress');
+    const blocks    = Array.from(document.querySelectorAll('.build-block'));
+    if (!section || !stage || !video || blocks.length !== 3) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (reduced) {
+      gsap.set(blocks, { opacity: 1, y: 0, x: 0 });
+      video.setAttribute('loop', '');
+      video.play().catch(() => {});
+      return;
+    }
+
+    let done = false;
+
+    const setup = () => {
+      if (done) return;
+      const duration = video.duration;
+      if (!duration || !isFinite(duration)) return;
+      done = true;
+
+      // Stop autoplay — scroll takes over playback. Frame 0 is already painted.
+      try { video.pause(); video.currentTime = 0; } catch (e) {}
+
+      const scrollLen = () => Math.round(window.innerHeight * 5);
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => '+=' + scrollLen(),
+          pin: stage,
+          pinSpacing: true,
+          scrub: 0.6,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const t = self.progress * duration;
+            if (!isNaN(t) && video.readyState >= 2) {
+              video.currentTime = t;
+            }
+            if (progress) {
+              progress.textContent = String(Math.round(self.progress * 100)).padStart(2, '0') + '%';
+            }
+          }
+        }
+      });
+
+      tl.fromTo(blocks[0],
+        { autoAlpha: 0, x: -48, y: '-50%' },
+        { autoAlpha: 1, x: 0,   y: '-50%', duration: 0.08 },
+        0.05
+      );
+      tl.to(blocks[0],
+        { autoAlpha: 0, x: -32, y: '-50%', duration: 0.07, ease: 'power2.in' },
+        0.28
+      );
+
+      tl.fromTo(blocks[1],
+        { autoAlpha: 0, x: 48,  y: '-50%' },
+        { autoAlpha: 1, x: 0,   y: '-50%', duration: 0.08 },
+        0.38
+      );
+      tl.to(blocks[1],
+        { autoAlpha: 0, x: 32,  y: '-50%', duration: 0.07, ease: 'power2.in' },
+        0.60
+      );
+
+      tl.fromTo(blocks[2],
+        { autoAlpha: 0, x: -48, y: '-50%' },
+        { autoAlpha: 1, x: 0,   y: '-50%', duration: 0.08 },
+        0.70
+      );
+      tl.to(blocks[2],
+        { autoAlpha: 0, x: -32, y: '-50%', duration: 0.07, ease: 'power2.in' },
+        0.93
+      );
+
+      tl.set({}, {}, 1);
+
+      ScrollTrigger.refresh();
+    };
+
+    // Wait for the first frame to be decoded (readyState >= 2) so the video
+    // is painted before we enable scrubbing. This avoids the black-screen flash.
+    if (video.readyState >= 2 && !isNaN(video.duration)) {
+      setup();
+    } else {
+      video.addEventListener('loadeddata', setup, { once: true });
+      video.addEventListener('canplay',    setup, { once: true });
+      video.load();
+    }
+  };
+
+  if (document.readyState === 'complete') {
+    initBuildSequence();
+  } else {
+    window.addEventListener('load', initBuildSequence, { once: true });
+  }
+
+})();
+</script>
+
+</body>
+</html>
