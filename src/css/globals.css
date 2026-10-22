@@ -137,6 +137,7 @@ a { color: inherit; text-decoration: none; }
   animation: stretch 1400ms var(--ease-both) infinite alternate;
 }
 @keyframes stretch { from { transform: scaleX(0.2); } to { transform: scaleX(1); } }
+@keyframes breathe { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
 
 /* ==================== SECTION SHARED ==================== */
 
