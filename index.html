@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="src/css/hero.css">
 <link rel="stylesheet" href="src/css/build.css">
 <link rel="stylesheet" href="src/css/manifest.css">
+<link rel="stylesheet" href="src/css/portfolio.css">
 
 <style>
 .btn-ghost {
@@ -171,122 +172,6 @@
 .processo-step li::before {
   content: "—";
   color: var(--gold);
-}
-
-/* ==================== PORTFÓLIO ==================== */
-
-.portfolio { background: var(--bg); }
-
-.portfolio-head {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: 4rem;
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-}
-.portfolio-head .section-lede {
-  justify-self: end;
-  max-width: 38ch;
-}
-
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: clamp(1rem, 2vw, 2rem);
-}
-
-.work {
-  position: relative;
-  overflow: hidden;
-  background: var(--surface);
-  border-radius: 2px;
-  cursor: pointer;
-}
-.work .frame {
-  position: relative;
-  overflow: hidden;
-  width: 100%; height: 100%;
-}
-.work img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 1600ms var(--ease-out), filter var(--t-base);
-  filter: saturate(0.95) brightness(0.92);
-}
-.work::before {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,7,6,0.0) 50%, rgba(8,7,6,0.85) 100%);
-  z-index: 2;
-  opacity: 0.7;
-  transition: opacity var(--t-base);
-  pointer-events: none;
-}
-.work::after {
-  content: "";
-  position: absolute; inset: 0.6rem;
-  border: 1px solid transparent;
-  z-index: 3;
-  transition: border-color var(--t-base);
-  pointer-events: none;
-}
-.work:hover img { transform: scale(1.06); filter: saturate(1) brightness(1); }
-.work:hover::before { opacity: 0.9; }
-.work:hover::after { border-color: var(--line-strong); }
-
-.work-caption {
-  position: absolute;
-  left: 1.5rem; right: 1.5rem; bottom: 1.25rem;
-  z-index: 4;
-  display: flex; justify-content: space-between; align-items: end;
-  gap: 1.5rem;
-}
-.work-caption .tag {
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.work-caption h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--step-2);
-  line-height: 1.05;
-  margin: 0.35rem 0 0;
-  color: var(--fg);
-  letter-spacing: -0.005em;
-}
-.work-caption .meta {
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.2em;
-  color: var(--fg-soft);
-  white-space: nowrap;
-}
-
-/* Asymmetric spans — 6 works, layout variance ~8 */
-.work-1 { grid-column: span 4; aspect-ratio: 16 / 10; }
-.work-2 { grid-column: span 2; aspect-ratio: 4 / 5; }
-.work-3 { grid-column: span 2; aspect-ratio: 4 / 5; }
-.work-4 { grid-column: span 4; aspect-ratio: 16 / 10; }
-.work-5 { grid-column: span 3; aspect-ratio: 5 / 4; }
-.work-6 { grid-column: span 3; aspect-ratio: 5 / 4; }
-
-.portfolio-foot {
-  margin-top: clamp(3rem, 6vw, 5rem);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--line);
-}
-.portfolio-foot p {
-  margin: 0;
-  color: var(--fg-muted);
-  font-size: var(--step--1);
-  max-width: 46ch;
 }
 
 /* ==================== SOBRE ==================== */
