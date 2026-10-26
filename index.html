@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="src/css/build.css">
 <link rel="stylesheet" href="src/css/manifest.css">
 <link rel="stylesheet" href="src/css/portfolio.css">
+<link rel="stylesheet" href="src/css/about.css">
 
 <style>
 .btn-ghost {
@@ -172,106 +173,6 @@
 .processo-step li::before {
   content: "—";
   color: var(--gold);
-}
-
-/* ==================== SOBRE ==================== */
-
-.sobre { background: var(--bg-raised); }
-
-.sobre-grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: clamp(3rem, 6vw, 6rem);
-  align-items: start;
-}
-
-.sobre-portrait {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 2px;
-  background: var(--surface);
-}
-.sobre-portrait img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  filter: saturate(0.85) contrast(1.02);
-}
-.sobre-portrait::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,7,6,0.0) 70%, rgba(8,7,6,0.4) 100%);
-  pointer-events: none;
-}
-.sobre-portrait-cap {
-  position: absolute;
-  bottom: 1.25rem; left: 1.5rem; right: 1.5rem;
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--fg-soft);
-  display: flex; justify-content: space-between;
-}
-
-.sobre-content h2 {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: var(--step-4);
-  line-height: 1.0;
-  letter-spacing: -0.015em;
-  margin: 0 0 2rem;
-  max-width: 16ch;
-}
-.sobre-content h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
-
-.sobre-content p {
-  font-size: var(--step-0);
-  line-height: 1.75;
-  color: var(--fg-soft);
-  margin: 0 0 1.25rem;
-  max-width: 58ch;
-}
-.sobre-content p.lede {
-  font-size: var(--step-1);
-  font-weight: 300;
-  color: var(--fg);
-  line-height: 1.55;
-  margin-bottom: 2rem;
-}
-
-.sobre-credits {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem 3rem;
-}
-.sobre-credits dt {
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  margin-bottom: 0.5rem;
-}
-.sobre-credits dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--step-1);
-  font-weight: 400;
-  color: var(--fg);
-  letter-spacing: -0.005em;
-}
-
-.sobre-signature {
-  margin-top: 2.5rem;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--step-2);
-  color: var(--gold);
-  opacity: 0.9;
 }
 
 /* ==================== DEPOIMENTOS ==================== */
