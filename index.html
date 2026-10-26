@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="src/css/header.css">
 <link rel="stylesheet" href="src/css/hero.css">
 <link rel="stylesheet" href="src/css/build.css">
+<link rel="stylesheet" href="src/css/manifest.css">
 
 <style>
 .btn-ghost {
@@ -35,76 +36,6 @@
 }
 .btn-ghost:hover { color: var(--gold); }
 .btn-ghost:hover::after { width: 4.5rem; }
-
-/* ==================== MANIFESTO ==================== */
-
-.manifesto {
-  position: relative;
-  padding: clamp(8rem, 16vw, 14rem) 0 clamp(6rem, 12vw, 10rem);
-  background: var(--bg);
-}
-.manifesto-inner {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 4rem;
-}
-.manifesto-quote {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-style: italic;
-  font-size: var(--step-5);
-  line-height: 1.02;
-  letter-spacing: -0.015em;
-  color: var(--fg);
-  max-width: 22ch;
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-}
-.manifesto-quote::before {
-  content: "“";
-  position: absolute;
-  top: -0.5em; left: -0.6em;
-  font-size: 2.8em;
-  line-height: 1;
-  color: var(--gold);
-  opacity: 0.35;
-  font-weight: 400;
-}
-.manifesto-quote strong {
-  font-weight: 400;
-  color: var(--gold);
-  font-style: italic;
-}
-
-.manifesto-meta {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 56rem;
-  margin: 3.5rem auto 0;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--line);
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--fg-muted);
-  text-align: center;
-}
-.manifesto-meta div { display: grid; gap: 0.5rem; }
-.manifesto-meta strong {
-  font-family: var(--font-display);
-  font-size: var(--step-3);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  text-transform: none;
-  color: var(--fg);
-  font-variant-numeric: tabular-nums;
-}
 
 /* ==================== PROCESSO ==================== */
 
