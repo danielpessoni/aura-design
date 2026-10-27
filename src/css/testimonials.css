@@ -1,0 +1,97 @@
+/* ==================== DEPOIMENTOS ==================== */
+
+.depoimentos {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.depoimentos-head {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+}
+.depoimentos-head .section-label {
+  justify-content: center;
+}
+.depoimentos-head .section-label::before {
+  display: none;
+}
+.depoimentos-head h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-4);
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.depoimentos-head h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.depoimentos-stack {
+  display: grid;
+  gap: clamp(4rem, 8vw, 7rem);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.depoimento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  position: relative;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+.depoimento:nth-child(odd) {
+  padding-right: clamp(2rem, 10vw, 8rem);
+}
+.depoimento:nth-child(even) {
+  padding-left: clamp(2rem, 10vw, 8rem);
+  text-align: right;
+  justify-items: end;
+}
+
+.depoimento-quote {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: var(--step-3);
+  line-height: 1.25;
+  color: var(--fg);
+  margin: 0;
+  max-width: 32ch;
+  position: relative;
+}
+.depoimento-quote::before {
+  content: "“";
+  position: absolute;
+  left: -0.4em; top: -0.3em;
+  font-size: 2.2em;
+  color: var(--gold);
+  opacity: 0.3;
+  line-height: 1;
+  font-style: normal;
+}
+.depoimento:nth-child(even) .depoimento-quote::before {
+  left: auto; right: -0.4em;
+}
+
+.depoimento-attr {
+  display: flex; align-items: center; gap: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.depoimento-attr .bar {
+  display: block;
+  width: 2.5rem; height: 1px;
+  background: var(--gold);
+}
+.depoimento-attr strong {
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--fg);
+}
