@@ -1,10 +1,12 @@
 /* ==================== DEPOIMENTOS ==================== */
 
+/* Seção de depoimentos com largura controlada */
 .depoimentos {
   background: var(--bg);
   overflow: hidden;
 }
 
+/* Cabeçalho centralizado da seção */
 .depoimentos-head {
   text-align: center;
   max-width: 48rem;
@@ -26,6 +28,7 @@
 }
 .depoimentos-head h2 em { font-style: italic; color: var(--gold); font-weight: 400; }
 
+/* Empilhamento das citações com espaçamento generoso */
 .depoimentos-stack {
   display: grid;
   gap: clamp(4rem, 8vw, 7rem);
@@ -33,6 +36,7 @@
   margin: 0 auto;
 }
 
+/* Cada citação alterna alinhamento conforme sua posição */
 .depoimento {
   display: grid;
   grid-template-columns: 1fr;
@@ -49,6 +53,7 @@
   justify-items: end;
 }
 
+/* Texto principal da recomendação */
 .depoimento-quote {
   font-family: var(--font-display);
   font-weight: 300;
@@ -74,6 +79,7 @@
   left: auto; right: -0.4em;
 }
 
+/* Identificação da pessoa e projeto mencionado */
 .depoimento-attr {
   display: flex; align-items: center; gap: 1.25rem;
   font-family: var(--font-mono);

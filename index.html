@@ -1,403 +1,427 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Studio Aura — Arquitetura de Interiores Autoral · São Paulo</title>
-<meta name="description" content="Studio Aura: arquitetura de interiores de alto padrão em São Paulo. Projetos residenciais autorais assinados por Marina Vasconcelos." />
+  <!-- Metadados e recursos externos usados pelo documento -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Studio Aura — Arquitetura de Interiores Autoral · São Paulo</title>
+  <meta name="description" content="Studio Aura: arquitetura de interiores de alto padrão em São Paulo. Projetos residenciais autorais assinados por Marina Vasconcelos." />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Pré-carregamento das fontes melhora o carregamento visual das tipografias -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="src/css/globals.css">
-<link rel="stylesheet" href="src/css/header.css">
-<link rel="stylesheet" href="src/css/hero.css">
-<link rel="stylesheet" href="src/css/build.css">
-<link rel="stylesheet" href="src/css/movie.css">
-<link rel="stylesheet" href="src/css/manifest.css">
-<link rel="stylesheet" href="src/css/portfolio.css">
-<link rel="stylesheet" href="src/css/about.css">
-<link rel="stylesheet" href="src/css/testimonials.css">
-<link rel="stylesheet" href="src/css/form.css">
-<link rel="stylesheet" href="src/css/footer.css">
+  <!-- Folhas de estilo carregadas em ordem: fundamentos, seções e componentes -->
+  <link rel="stylesheet" href="src/css/globals.css">
+  <link rel="stylesheet" href="src/css/header.css">
+  <link rel="stylesheet" href="src/css/hero.css">
+  <link rel="stylesheet" href="src/css/build.css">
+  <link rel="stylesheet" href="src/css/movie.css">
+  <link rel="stylesheet" href="src/css/manifest.css">
+  <link rel="stylesheet" href="src/css/portfolio.css">
+  <link rel="stylesheet" href="src/css/about.css">
+  <link rel="stylesheet" href="src/css/testimonials.css">
+  <link rel="stylesheet" href="src/css/form.css">
+  <link rel="stylesheet" href="src/css/footer.css">
 </head>
 
 <body>
 
-<!-- Grain overlay (fixed, pointer-events:none) -->
-<div class="grain" aria-hidden="true"></div>
+  <!-- Elementos visuais fixos que ficam sobre todo o conteúdo da página -->
 
-<!-- Scroll progress -->
-<div class="progress" id="progress" aria-hidden="true"></div>
+  <!-- Camada de textura fixa: não recebe cliques -->
+  <div class="grain" aria-hidden="true"></div>
 
-<!-- Initial loader -->
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-mark">Aura</div>
-</div>
+  <!-- Linha que acompanha visualmente o progresso da rolagem -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-<!-- ========== NAV ========== -->
-<header class="nav" id="nav">
-  <a class="nav-brand" href="#top" aria-label="Studio Aura — voltar ao topo">Studio Aura</a>
-  <nav class="nav-links" aria-label="Navegação principal">
-    <a href="#processo">Processo</a>
-    <a href="#portfolio">Projetos</a>
-    <a href="#sobre">Studio</a>
-    <a href="#depoimentos">Vozes</a>
-  </nav>
-  <a class="nav-cta" href="#contato">
+  <!-- Tela de abertura exibida durante o carregamento inicial -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-mark">Aura</div>
+  </div>
+
+  <!-- ========== NAV ========== -->
+  <header class="nav" id="nav">
+    <!-- Marca de texto que leva de volta ao topo -->
+    <a class="nav-brand" href="#top" aria-label="Studio Aura — voltar ao topo">Studio Aura</a>
+    <!-- Links principais para navegação por seções -->
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#processo">Processo</a>
+      <a href="#portfolio">Projetos</a>
+      <a href="#sobre">Studio</a>
+      <a href="#depoimentos">Vozes</a>
+    </nav>
+    <a class="nav-cta" href="#contato">
     Agendar visita
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
   </a>
-  <button class="nav-burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
-    <span></span><span></span>
-  </button>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#processo">Processo</a>
-    <a href="#portfolio">Projetos</a>
-    <a href="#sobre">Studio</a>
-    <a href="#depoimentos">Vozes</a>
-    <a href="#contato">Agendar visita →</a>
-  </div>
-</header>
+    <!-- Botão exibido em telas menores para abrir o menu mobile -->
+    <button class="nav-burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+    <!-- Menu alternativo para dispositivos móveis -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#processo">Processo</a>
+      <a href="#portfolio">Projetos</a>
+      <a href="#sobre">Studio</a>
+      <a href="#depoimentos">Vozes</a>
+      <a href="#contato">Agendar visita →</a>
+    </div>
+  </header>
 
-<main id="top">
+  <main id="top">
 
-  <!-- ========== HERO ========== -->
-  <section class="hero" aria-label="Apresentação">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="src/assets/projeto-sala.png">
-      <source src="src/assets/interior-dark-video.mp4" type="video/mp4">
-    </video>
+    <!-- Conteúdo principal: cada seção representa um bloco da narrativa do site -->
 
-    <div class="hero-grid">
-      <div class="hero-meta">
-        <span><span class="dot"></span> Em agenda · 2026</span>
-        <span>São Paulo · 23°34′ S</span>
-      </div>
+    <!-- ========== HERO ========== -->
+    <!-- Primeiro conteúdo visto pelo visitante: vídeo de fundo, título e chamada -->
+    <section class="hero" aria-label="Apresentação">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="src/assets/projeto-sala.png">
+        <source src="src/assets/interior-dark-video.mp4" type="video/mp4">
+      </video>
 
-      <div class="hero-main">
-        <h1 class="hero-title">
+      <!-- Grade do hero organiza metadados, mensagem, ação e indicação de rolagem -->
+      <div class="hero-grid">
+        <div class="hero-meta">
+          <span><span class="dot"></span> Em agenda · 2026</span>
+          <span>São Paulo · 23°34′ S</span>
+        </div>
+
+        <div class="hero-main">
+          <h1 class="hero-title">
           <span class="line"><span>Interiores</span></span>
           <span class="line"><span>que respiram</span></span>
           <span class="line"><span><em>luxo silencioso.</em></span></span>
         </h1>
-      </div>
+        </div>
 
-      <div class="hero-actions">
-        <a class="btn-primary" href="#portfolio">
+        <div class="hero-actions">
+          <a class="btn-primary" href="#portfolio">
           Conheça os projetos
           <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-      </div>
-
-      <div class="hero-foot">
-        <span class="scroll-cue">Role para descobrir</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PROCESSO / BUILD SEQUENCE ========== -->
-  <section class="processo" id="processo" aria-label="Processo de trabalho">
-    <div class="build-seq" id="buildSeq">
-      <div class="build-stage" id="buildStage">
-        <video class="build-video" id="buildVideo" autoplay muted playsinline preload="auto" poster="src/assets/projeto-sala.png">
-          <source src="src/assets/video-camadas.mp4" type="video/mp4">
-        </video>
-
-        <div class="build-hud" aria-hidden="true">
-          <span class="tl"><span class="dot"></span> Studio Aura · Build Sequence</span>
-          <span class="tr">03 Atos · Um gesto contínuo</span>
-          <span class="bl">Role para avançar o projeto</span>
-          <span class="br" id="buildProgress">00%</span>
         </div>
 
-        <article class="build-block" data-block="1" data-side="left">
-          <div class="num">Ato 01</div>
-          <h3>Escuta e <em>leitura</em> do lugar</h3>
-          <p>
+        <div class="hero-foot">
+          <span class="scroll-cue">Role para descobrir</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PROCESSO / BUILD SEQUENCE ========== -->
+    <!-- Processo criativo apresentado em uma sequência audiovisual e narrativa -->
+    <section class="processo" id="processo" aria-label="Processo de trabalho">
+      <div class="build-seq" id="buildSeq">
+        <div class="build-stage" id="buildStage">
+          <video class="build-video" id="buildVideo" autoplay muted playsinline preload="auto" poster="src/assets/projeto-sala.png">
+            <source src="src/assets/video-camadas.mp4" type="video/mp4">
+          </video>
+
+          <div class="build-hud" aria-hidden="true">
+            <span class="tl"><span class="dot"></span> Studio Aura · Build Sequence</span>
+            <span class="tr">03 Atos · Um gesto contínuo</span>
+            <span class="bl">Role para avançar o projeto</span>
+            <span class="br" id="buildProgress">00%</span>
+          </div>
+
+          <!-- Cada bloco abaixo representa um ato da sequência de projetos -->
+          <article class="build-block" data-block="1" data-side="left">
+            <div class="num">Ato 01</div>
+            <h3>Escuta e <em>leitura</em> do lugar</h3>
+            <p>
             Partimos de uma imersão silenciosa — visita ao imóvel, ao bairro, e sobretudo
             a quem vai habitar. Desse encontro nasce um dossiê sensorial: luz, temperatura,
             ritmo e memória. Nada é decidido antes dessa leitura.
           </p>
-        </article>
+          </article>
 
-        <article class="build-block" data-block="2" data-side="right">
-          <div class="num">Ato 02</div>
-          <h3>Projeto em <em>camadas</em></h3>
-          <p>
+          <article class="build-block" data-block="2" data-side="right">
+            <div class="num">Ato 02</div>
+            <h3>Projeto em <em>camadas</em></h3>
+            <p>
             Desenhamos em sobreposição: planta, iluminação, mobiliário, materialidade, arte.
             Cada camada é testada em renderizações foto-reais e maquetes físicas de bancada
             antes de chegar à obra. Nada aparece por acaso.
           </p>
-        </article>
+          </article>
 
-        <article class="build-block" data-block="3" data-side="left">
-          <div class="num">Ato 03</div>
-          <h3>Execução e <em>entrega</em> coreografada</h3>
-          <p>
+          <article class="build-block" data-block="3" data-side="left">
+            <div class="num">Ato 03</div>
+            <h3>Execução e <em>entrega</em> coreografada</h3>
+            <p>
             Acompanhamos a obra presencialmente, com visitas semanais. A entrega é cenográfica —
             ambientamos a casa inteira, das toalhas à trilha sonora. A primeira noite já
             pertence a quem mora.
           </p>
-        </article>
+          </article>
+        </div>
       </div>
-    </div>
-  </section>
-    
-  <!-- ========== MANIFESTO ========== -->
-  <section class="manifesto" aria-label="Manifesto">
-    <div class="manifesto-inner">
-      <blockquote class="manifesto-quote" data-reveal="up">
-        O verdadeiro luxo se mede em <strong>silêncio, matéria e luz</strong> —
-        não no que salta aos olhos, mas no que permanece.
-      </blockquote>
+    </section>
 
-      <dl class="manifesto-meta" data-reveal-lines>
-        <div>
-          <strong>47</strong>
-          <span>Projetos entregues</span>
-        </div>
-        <div>
-          <strong>9 anos</strong>
-          <span>De autoria contínua</span>
-        </div>
-        <div>
-          <strong>São Paulo</strong>
-          <span>Ateliê próprio · Jardins</span>
-        </div>
-      </dl>
-    </div>
-  </section>
+    <!-- ========== MANIFESTO ========== -->
+    <section class="manifesto" aria-label="Manifesto">
+      <div class="manifesto-inner">
+        <blockquote class="manifesto-quote" data-reveal="up">
+          O verdadeiro luxo se mede em <strong>silêncio, matéria e luz</strong> —
+          não no que salta aos olhos, mas no que permanece.
+        </blockquote>
+
+        <!-- Indicadores resumem alcance, experiência e localização do studio -->
+        <dl class="manifesto-meta" data-reveal-lines>
+          <div>
+            <strong>47</strong>
+            <span>Projetos entregues</span>
+          </div>
+          <div>
+            <strong>9 anos</strong>
+            <span>De autoria contínua</span>
+          </div>
+          <div>
+            <strong>São Paulo</strong>
+            <span>Ateliê próprio · Jardins</span>
+          </div>
+        </dl>
+      </div>
+    </section>
 
 
 
-  <!-- ========== PORTFÓLIO ========== -->
-  <section class="section portfolio" id="portfolio" aria-label="Portfólio">
-    <div class="section-inner">
-      <div class="portfolio-head">
-        <div data-reveal="up">
-          <div class="section-label"><span class="num">02 /</span> Seleção recente</div>
-          <h2 class="section-title">Projetos <em>assinados</em> nos últimos anos.</h2>
-        </div>
-        <p class="section-lede" data-reveal="up" style="--d:150ms;">
+    <!-- ========== PORTFÓLIO ========== -->
+    <section class="section portfolio" id="portfolio" aria-label="Portfólio">
+      <div class="section-inner">
+        <!-- Cabeçalho do portfólio: título e texto explicativo -->
+        <div class="portfolio-head">
+          <div data-reveal="up">
+            <div class="section-label"><span class="num">02 /</span> Seleção recente</div>
+            <h2 class="section-title">Projetos <em>assinados</em> nos últimos anos.</h2>
+          </div>
+          <p class="section-lede" data-reveal="up" style="--d:150ms;">
           Seis ambientes escolhidos por aquilo que melhor traduz o estudio:
           discrição material, presença da luz, e o cuidado obsessivo com o detalhe.
         </p>
-      </div>
+        </div>
 
-      <div class="portfolio-grid">
-        <article class="work work-1" data-reveal="up">
-          <div class="frame"><img src="src/assets/projeto-sala.png" alt="Sala de estar em tons terrosos com iluminação cênica"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Residencial · Jardins</div>
-              <h3>Casa Aurélia</h3>
+        <!-- Grade assimétrica com cada projeto e sua legenda -->
+        <div class="portfolio-grid">
+          <article class="work work-1" data-reveal="up">
+            <div class="frame"><img src="src/assets/projeto-sala.png" alt="Sala de estar em tons terrosos com iluminação cênica"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Residencial · Jardins</div>
+                <h3>Casa Aurélia</h3>
+              </div>
+              <div class="meta">2025 · 412 m²</div>
             </div>
-            <div class="meta">2025 · 412 m²</div>
-          </div>
-        </article>
+          </article>
 
-        <article class="work work-2" data-reveal="up" style="--d:80ms;">
-          <div class="frame"><img src="src/assets/projeto-quarto.png" alt="Suíte master com cabeceira em veludo e enxoval natural"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Suíte · Higienópolis</div>
-              <h3>Quarto Linhares</h3>
+          <article class="work work-2" data-reveal="up" style="--d:80ms;">
+            <div class="frame"><img src="src/assets/projeto-quarto.png" alt="Suíte master com cabeceira em veludo e enxoval natural"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Suíte · Higienópolis</div>
+                <h3>Quarto Linhares</h3>
+              </div>
+              <div class="meta">2024</div>
             </div>
-            <div class="meta">2024</div>
-          </div>
-        </article>
+          </article>
 
-        <article class="work work-3" data-reveal="up" style="--d:160ms;">
-          <div class="frame"><img src="src/assets/projeto-terracota.png" alt="Ambiente em tons terracota com mobiliário curvo"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Studio · Vila Madalena</div>
-              <h3>Residência Terra</h3>
+          <article class="work work-3" data-reveal="up" style="--d:160ms;">
+            <div class="frame"><img src="src/assets/projeto-terracota.png" alt="Ambiente em tons terracota com mobiliário curvo"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Studio · Vila Madalena</div>
+                <h3>Residência Terra</h3>
+              </div>
+              <div class="meta">2024</div>
             </div>
-            <div class="meta">2024</div>
-          </div>
-        </article>
+          </article>
 
-        <article class="work work-4" data-reveal="up">
-          <div class="frame"><img src="src/assets/projeto-sala-2.png" alt="Living com pé-direito duplo e obra de arte"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Cobertura · Vila Nova</div>
-              <h3>Penthouse Calábria</h3>
+          <article class="work work-4" data-reveal="up">
+            <div class="frame"><img src="src/assets/projeto-sala-2.png" alt="Living com pé-direito duplo e obra de arte"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Cobertura · Vila Nova</div>
+                <h3>Penthouse Calábria</h3>
+              </div>
+              <div class="meta">2024 · 640 m²</div>
             </div>
-            <div class="meta">2024 · 640 m²</div>
-          </div>
-        </article>
+          </article>
 
-        <article class="work work-5" data-reveal="up" style="--d:80ms;">
-          <div class="frame"><img src="src/assets/projeto-biblioteca.png" alt="Biblioteca particular com estantes em madeira escura"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Biblioteca · Pinheiros</div>
-              <h3>Gabinete Moretti</h3>
+          <article class="work work-5" data-reveal="up" style="--d:80ms;">
+            <div class="frame"><img src="src/assets/projeto-biblioteca.png" alt="Biblioteca particular com estantes em madeira escura"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Biblioteca · Pinheiros</div>
+                <h3>Gabinete Moretti</h3>
+              </div>
+              <div class="meta">2023</div>
             </div>
-            <div class="meta">2023</div>
-          </div>
-        </article>
+          </article>
 
-        <article class="work work-6" data-reveal="up" style="--d:160ms;">
-          <div class="frame"><img src="src/assets/projeto-cozinha.png" alt="Cozinha integrada com bancada em mármore e iluminação quente"></div>
-          <div class="work-caption">
-            <div>
-              <div class="tag">Residencial · Itaim</div>
-              <h3>Cozinha Veneto</h3>
+          <article class="work work-6" data-reveal="up" style="--d:160ms;">
+            <div class="frame"><img src="src/assets/projeto-cozinha.png" alt="Cozinha integrada com bancada em mármore e iluminação quente"></div>
+            <div class="work-caption">
+              <div>
+                <div class="tag">Residencial · Itaim</div>
+                <h3>Cozinha Veneto</h3>
+              </div>
+              <div class="meta">2023</div>
             </div>
-            <div class="meta">2023</div>
-          </div>
-        </article>
-      </div>
+          </article>
+        </div>
 
-      <div class="portfolio-foot" data-reveal="up">
-        <p>
+        <!-- Rodapé da seleção: projetos sob solicitação e chamada para ação -->
+        <div class="portfolio-foot" data-reveal="up">
+          <p>
           Outros dezesseis projetos residenciais e três projetos de hospitality
           estão disponíveis sob solicitação, em portfólio impresso.
         </p>
-        <a class="btn-ghost" href="#contato">Solicitar portfólio completo</a>
+          <a class="btn-ghost" href="#contato">Solicitar portfólio completo</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ========== SOBRE ========== -->
-  <section class="section sobre" id="sobre" aria-label="Sobre o studio">
-    <div class="section-inner">
-      <div class="sobre-grid">
-        <figure class="sobre-portrait" data-reveal="fade">
-          <img src="https://picsum.photos/seed/marina-vasconcelos-studio/900/1125"
-               alt="Retrato de Marina Vasconcelos, arquiteta fundadora do Studio Aura">
-          <figcaption class="sobre-portrait-cap">
-            <span>Marina V.</span>
-            <span>Fundadora · São Paulo</span>
-          </figcaption>
-        </figure>
+    <!-- ========== SOBRE ========== -->
+    <section class="section sobre" id="sobre" aria-label="Sobre o studio">
+      <div class="section-inner">
+        <!-- Apresentação do fundador: imagem, biografia, formação e credenciais -->
+        <div class="sobre-grid">
+          <figure class="sobre-portrait" data-reveal="fade">
+            <img src="https://picsum.photos/seed/marina-vasconcelos-studio/900/1125" alt="Retrato de Marina Vasconcelos, arquiteta fundadora do Studio Aura">
+            <figcaption class="sobre-portrait-cap">
+              <span>Marina V.</span>
+              <span>Fundadora · São Paulo</span>
+            </figcaption>
+          </figure>
 
-        <div class="sobre-content">
-          <div class="section-label" data-reveal="up"><span class="num">03 /</span> O studio</div>
-          <h2 data-reveal="up" style="--d:80ms;">
+          <div class="sobre-content">
+            <div class="section-label" data-reveal="up"><span class="num">03 /</span> O studio</div>
+            <h2 data-reveal="up" style="--d:80ms;">
             Feito à mão, <em>no tempo certo.</em>
           </h2>
 
-          <p class="lede" data-reveal="up" style="--d:160ms;">
+            <p class="lede" data-reveal="up" style="--d:160ms;">
             Sou <strong>Marina Vasconcelos</strong>, arquiteta formada pela FAU-USP,
             com mestrado em arquitetura de interiores pela Politecnico di Milano.
             Fundei o Studio Aura em 2017 após uma década em escritórios de referência
             na Europa — e trouxe comigo uma convicção: projeto bom é aquele que não precisa se explicar.
           </p>
 
-          <p data-reveal="up" style="--d:200ms;">
+            <p data-reveal="up" style="--d:200ms;">
             No Aura trabalhamos com um número restrito de clientes por ano.
             Cada projeto é conduzido pessoalmente por mim e por um time enxuto de quatro arquitetos,
             com dedicação quase exclusiva. Não somos rápidos — somos precisos.
             E acreditamos que o melhor espaço é aquele que envelhece junto com quem o habita.
           </p>
 
-          <p data-reveal="up" style="--d:240ms;">
+            <p data-reveal="up" style="--d:240ms;">
             Entre nossos parceiros contamos com marcenarias italianas, artesãos de Minas,
             e uma curadoria permanente de arte brasileira contemporânea que se renova a cada projeto.
           </p>
 
-          <dl class="sobre-credits" data-reveal-lines>
-            <div>
-              <dt>Formação</dt>
-              <dd>FAU-USP · Politecnico di Milano</dd>
-            </div>
-            <div>
-              <dt>Reconhecimento</dt>
-              <dd>Casa Vogue Design · 2022</dd>
-            </div>
-            <div>
-              <dt>Publicações</dt>
-              <dd>AD Brasil, Wallpaper*, Arch Digest</dd>
-            </div>
-            <div>
-              <dt>Ateliê</dt>
-              <dd>R. Artur de Azevedo, 1382 · SP</dd>
-            </div>
-          </dl>
+            <!-- Lista de credenciais organizada em pares de termo e descrição -->
+            <dl class="sobre-credits" data-reveal-lines>
+              <div>
+                <dt>Formação</dt>
+                <dd>FAU-USP · Politecnico di Milano</dd>
+              </div>
+              <div>
+                <dt>Reconhecimento</dt>
+                <dd>Casa Vogue Design · 2022</dd>
+              </div>
+              <div>
+                <dt>Publicações</dt>
+                <dd>AD Brasil, Wallpaper*, Arch Digest</dd>
+              </div>
+              <div>
+                <dt>Ateliê</dt>
+                <dd>R. Artur de Azevedo, 1382 · SP</dd>
+              </div>
+            </dl>
 
-          <div class="sobre-signature" data-reveal="up" style="--d:300ms;">— M. Vasconcelos</div>
+            <div class="sobre-signature" data-reveal="up" style="--d:300ms;">— M. Vasconcelos</div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ========== DEPOIMENTOS ========== -->
-  <section class="section depoimentos" id="depoimentos" aria-label="Depoimentos">
-    <div class="section-inner">
-      <header class="depoimentos-head">
-        <div class="section-label"><span class="num">04 /</span> Vozes</div>
-        <h2 data-reveal="up">O que dizem <em>os nossos</em>.</h2>
-      </header>
+    <!-- ========== DEPOIMENTOS ========== -->
+    <section class="section depoimentos" id="depoimentos" aria-label="Depoimentos">
+      <div class="section-inner">
+        <header class="depoimentos-head">
+          <div class="section-label"><span class="num">04 /</span> Vozes</div>
+          <h2 data-reveal="up">O que dizem <em>os nossos</em>.</h2>
+        </header>
 
-      <div class="depoimentos-stack">
-        <figure class="depoimento" data-reveal="up">
-          <blockquote class="depoimento-quote">
-            Entrei na nossa casa e parei no hall. Não por causa de algo grande —
-            mas porque tudo, até o cheiro do armário, estava certo. A Marina entendeu
-            o que nem nós sabíamos que queríamos.
-          </blockquote>
-          <figcaption class="depoimento-attr">
-            <span class="bar"></span>
-            <span>
+        <!-- Lista vertical de depoimentos, com citação e identificação do cliente -->
+        <div class="depoimentos-stack">
+          <figure class="depoimento" data-reveal="up">
+            <blockquote class="depoimento-quote">
+              Entrei na nossa casa e parei no hall. Não por causa de algo grande —
+              mas porque tudo, até o cheiro do armário, estava certo. A Marina entendeu
+              o que nem nós sabíamos que queríamos.
+            </blockquote>
+            <figcaption class="depoimento-attr">
+              <span class="bar"></span>
+              <span>
               <strong>Helena Toledo Bastos</strong><br>
               Cliente · Residencial Jardins · 2024
             </span>
-          </figcaption>
-        </figure>
+            </figcaption>
+          </figure>
 
-        <figure class="depoimento" data-reveal="up">
-          <blockquote class="depoimento-quote">
-            Contratamos a Aura por recomendação e, no meio da obra, já havíamos
-            indicado para outros dois amigos. O processo é raro: metódico, silencioso,
-            sem surpresa — e ao mesmo tempo profundamente autoral.
-          </blockquote>
-          <figcaption class="depoimento-attr">
-            <span class="bar"></span>
-            <span>
+          <figure class="depoimento" data-reveal="up">
+            <blockquote class="depoimento-quote">
+              Contratamos a Aura por recomendação e, no meio da obra, já havíamos
+              indicado para outros dois amigos. O processo é raro: metódico, silencioso,
+              sem surpresa — e ao mesmo tempo profundamente autoral.
+            </blockquote>
+            <figcaption class="depoimento-attr">
+              <span class="bar"></span>
+              <span>
               <strong>Rafael Monteiro Campos</strong><br>
               Cliente · Cobertura Vila Nova · 2024
             </span>
-          </figcaption>
-        </figure>
+            </figcaption>
+          </figure>
 
-        <figure class="depoimento" data-reveal="up">
-          <blockquote class="depoimento-quote">
-            O studio consegue a coisa mais difícil em projeto de interiores: fazer o
-            luxo passar despercebido. Você sente, mas não vê. É exatamente isso o que
-            a gente queria, e que não tínhamos palavras para pedir.
-          </blockquote>
-          <figcaption class="depoimento-attr">
-            <span class="bar"></span>
-            <span>
+          <figure class="depoimento" data-reveal="up">
+            <blockquote class="depoimento-quote">
+              O studio consegue a coisa mais difícil em projeto de interiores: fazer o
+              luxo passar despercebido. Você sente, mas não vê. É exatamente isso o que
+              a gente queria, e que não tínhamos palavras para pedir.
+            </blockquote>
+            <figcaption class="depoimento-attr">
+              <span class="bar"></span>
+              <span>
               <strong>Beatriz Wollf Azambuja</strong><br>
               Cliente · Biblioteca Pinheiros · 2023
             </span>
-          </figcaption>
-        </figure>
+            </figcaption>
+          </figure>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ========== CONTATO ========== -->
-  <section class="section contato" id="contato" aria-label="Contato">
-    <div class="section-inner">
-      <div class="contato-grid">
-        <div class="contato-intro">
-          <div class="section-label" data-reveal="up"><span class="num">05 /</span> Contato</div>
-          <h2 data-reveal="up" style="--d:80ms;">Uma <em>conversa</em> antes de um projeto.</h2>
-          <p data-reveal="up" style="--d:160ms;">
+    <!-- ========== CONTATO ========== -->
+    <section class="section contato" id="contato" aria-label="Contato">
+      <div class="section-inner">
+        <!-- Duas colunas: informações de contato e formulário de proposta -->
+        <div class="contato-grid">
+          <div class="contato-intro">
+            <div class="section-label" data-reveal="up"><span class="num">05 /</span> Contato</div>
+            <h2 data-reveal="up" style="--d:80ms;">Uma <em>conversa</em> antes de um projeto.</h2>
+            <p data-reveal="up" style="--d:160ms;">
             Aceitamos um número limitado de novos projetos por ano. O primeiro encontro
             é sempre presencial, no ateliê ou no imóvel — sem custo e sem compromisso.
             Conte um pouco sobre o espaço e o momento que você atravessa.
           </p>
 
-          <div class="contato-channels" data-reveal-lines>
-            <a class="channel whatsapp" href="https://wa.me/5511987654321?text=Ol%C3%A1%20Studio%20Aura%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
+            <!-- Canais diretos de contato -->
+            <div class="contato-channels" data-reveal-lines>
+              <a class="channel whatsapp" href="https://wa.me/5511987654321?text=Ol%C3%A1%20Studio%20Aura%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
               <span class="ico" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.5 3.5A10.7 10.7 0 0 0 12.7 1C6.9 1 2.3 5.6 2.3 11.4c0 1.8.5 3.6 1.4 5.1L2 22l5.7-1.5a10.4 10.4 0 0 0 5 1.3h.0c5.8 0 10.4-4.6 10.4-10.4 0-2.8-1.1-5.4-3.1-7.4Z"/><path d="M8.4 7.8c.2-.1.5 0 .6.1l1 1.8c.1.3 0 .6-.1.7l-.6.6c-.1.1-.1.3 0 .5.6 1.2 1.5 2.1 2.6 2.8.2.1.4.1.5 0l.6-.6c.2-.2.5-.2.7-.1l1.8 1c.2.1.3.4.1.6-.3.6-.9 1.2-1.7 1.3-.8.1-1.7-.1-3.6-1.2-1.6-1-2.9-2.3-3.8-3.8-.9-1.5-1-2.3-.8-2.9.1-.6.5-1.1 1-1.3Z" fill="currentColor" stroke="none"/></svg>
               </span>
@@ -407,7 +431,7 @@
               </span>
             </a>
 
-            <a class="channel" href="mailto:atelie@studioaura.com.br">
+              <a class="channel" href="mailto:atelie@studioaura.com.br">
               <span class="ico" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
               </span>
@@ -417,7 +441,7 @@
               </span>
             </a>
 
-            <a class="channel" href="https://maps.google.com/?q=R.+Artur+de+Azevedo+1382+Pinheiros+Sao+Paulo" target="_blank" rel="noopener">
+              <a class="channel" href="https://maps.google.com/?q=R.+Artur+de+Azevedo+1382+Pinheiros+Sao+Paulo" target="_blank" rel="noopener">
               <span class="ico" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-7.5 7-12.5A7 7 0 0 0 5 9.5C5 14.5 12 22 12 22Z"/><circle cx="12" cy="10" r="2.5"/></svg>
               </span>
@@ -426,154 +450,163 @@
                 <span class="value">R. Artur de Azevedo, 1382 · SP</span>
               </span>
             </a>
+            </div>
+
+            <dl class="contato-meta" data-reveal="up">
+              <div>
+                <span>Atendimento</span>
+                <strong>Seg a Sex · 10h — 19h</strong>
+              </div>
+              <div>
+                <span>Agenda 2026</span>
+                <strong>Confirmando Q3</strong>
+              </div>
+            </dl>
           </div>
 
-          <dl class="contato-meta" data-reveal="up">
-            <div>
-              <span>Atendimento</span>
-              <strong>Seg a Sex · 10h — 19h</strong>
-            </div>
-            <div>
-              <span>Agenda 2026</span>
-              <strong>Confirmando Q3</strong>
-            </div>
-          </dl>
-        </div>
-
-        <form class="form" id="contactForm" novalidate data-reveal="up" style="--d:100ms;">
-          <div class="field">
-            <label for="nome">Nome</label>
-            <input id="nome" name="nome" type="text" placeholder="Como devemos te chamar" required>
-            <span class="err">Precisamos do seu nome.</span>
-          </div>
-
-          <div class="field-row">
+          <!-- Formulário dividido em campos; novalidate permite validação personalizada pelo JavaScript -->
+          <form class="form" id="contactForm" novalidate data-reveal="up" style="--d:100ms;">
             <div class="field">
-              <label for="email">E-mail</label>
-              <input id="email" name="email" type="email" placeholder="nome@dominio.com" required>
-              <span class="err">Confira o seu e-mail.</span>
+              <label for="nome">Nome</label>
+              <input id="nome" name="nome" type="text" placeholder="Como devemos te chamar" required>
+              <span class="err">Precisamos do seu nome.</span>
             </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" placeholder="nome@dominio.com" required>
+                <span class="err">Confira o seu e-mail.</span>
+              </div>
+              <div class="field">
+                <label for="telefone">Telefone</label>
+                <input id="telefone" name="telefone" type="tel" placeholder="+55 (11) 9 0000-0000">
+                <span class="err">Número inválido.</span>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="tipo">Tipo de projeto</label>
+                <select id="tipo" name="tipo" required>
+                  <option value="" disabled selected hidden>Selecione uma opção</option>
+                  <option>Residencial — apartamento</option>
+                  <option>Residencial — casa</option>
+                  <option>Cobertura / dúplex</option>
+                  <option>Hospitality / boutique</option>
+                  <option>Consultoria / curadoria</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="prazo">Início desejado</label>
+                <select id="prazo" name="prazo">
+                  <option value="" disabled selected hidden>Quando gostaria de começar</option>
+                  <option>Nos próximos 3 meses</option>
+                  <option>Entre 3 e 6 meses</option>
+                  <option>Ainda estou explorando</option>
+                </select>
+              </div>
+            </div>
+
             <div class="field">
-              <label for="telefone">Telefone</label>
-              <input id="telefone" name="telefone" type="tel" placeholder="+55 (11) 9 0000-0000">
-              <span class="err">Número inválido.</span>
+              <label for="mensagem">Sobre o espaço</label>
+              <textarea id="mensagem" name="mensagem" rows="4" placeholder="Conte rapidamente sobre o imóvel, a metragem, e o momento em que você está."></textarea>
             </div>
-          </div>
 
-          <div class="field-row">
-            <div class="field">
-              <label for="tipo">Tipo de projeto</label>
-              <select id="tipo" name="tipo" required>
-                <option value="" disabled selected hidden>Selecione uma opção</option>
-                <option>Residencial — apartamento</option>
-                <option>Residencial — casa</option>
-                <option>Cobertura / dúplex</option>
-                <option>Hospitality / boutique</option>
-                <option>Consultoria / curadoria</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="prazo">Início desejado</label>
-              <select id="prazo" name="prazo">
-                <option value="" disabled selected hidden>Quando gostaria de começar</option>
-                <option>Nos próximos 3 meses</option>
-                <option>Entre 3 e 6 meses</option>
-                <option>Ainda estou explorando</option>
-              </select>
-            </div>
-          </div>
+            <!-- Botão de envio; os estados visualizados são controlados pelo JavaScript -->
+            <button class="form-submit" type="submit" id="submitBtn">
+              <span class="text">Enviar proposta</span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </button>
 
-          <div class="field">
-            <label for="mensagem">Sobre o espaço</label>
-            <textarea id="mensagem" name="mensagem" rows="4" placeholder="Conte rapidamente sobre o imóvel, a metragem, e o momento em que você está."></textarea>
-          </div>
-
-          <button class="form-submit" type="submit" id="submitBtn">
-            <span class="text">Enviar proposta</span>
-            <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </button>
-
-          <p class="form-note">
+            <p class="form-note">
             Ao enviar, você concorda em ser contatado pelo e-mail ou telefone informados,
             exclusivamente pela equipe do Studio Aura.
           </p>
 
-          <div class="form-success" id="formSuccess" aria-live="polite">
-            <h3>Obrigado.</h3>
-            <p>Recebemos sua mensagem. Nossa equipe responderá em até 48 horas úteis.</p>
-          </div>
-        </form>
+            <div class="form-success" id="formSuccess" aria-live="polite">
+              <h3>Obrigado.</h3>
+              <p>Recebemos sua mensagem. Nossa equipe responderá em até 48 horas úteis.</p>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<!-- ========== RODAPÉ ========== -->
-<footer class="rodape" aria-label="Rodapé">
-  <div class="rodape-inner">
-    <div class="rodape-top">
-      <div class="rodape-brand">
-        <span class="mark">Aura</span>
-        <p>Arquitetura de interiores autoral para residências de alto padrão. São Paulo — Brasil.</p>
-        <div class="rodape-social" aria-label="Redes sociais">
-          <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+  <!-- ========== RODAPÉ ========== -->
+  <footer class="rodape" aria-label="Rodapé">
+    <div class="rodape-inner">
+      <!-- Primeira faixa do rodapé: apresentação e menus de navegação -->
+      <div class="rodape-top">
+        <div class="rodape-brand">
+          <span class="mark">Aura</span>
+          <p>Arquitetura de interiores autoral para residências de alto padrão. São Paulo — Brasil.</p>
+          <div class="rodape-social" aria-label="Redes sociais">
+            <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a href="https://pinterest.com/" target="_blank" rel="noopener" aria-label="Pinterest">
+            <a href="https://pinterest.com/" target="_blank" rel="noopener" aria-label="Pinterest">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10.5 21 12 12m-1-2a2.5 2.5 0 1 1 5 0c0 2-2 3.5-3.5 3.5"/></svg>
           </a>
-          <a href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <a href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7.5v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg>
           </a>
-          <a href="https://behance.net/" target="_blank" rel="noopener" aria-label="Behance">
+            <a href="https://behance.net/" target="_blank" rel="noopener" aria-label="Behance">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h5a2.5 2.5 0 0 1 0 5H3Zm0 5h5.5a2.75 2.75 0 0 1 0 5.5H3Zm12-3h5M14 14a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z"/></svg>
           </a>
+          </div>
+        </div>
+
+        <div class="rodape-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#processo">Processo</a></li>
+            <li><a href="#portfolio">Projetos</a></li>
+            <li><a href="#depoimentos">Vozes</a></li>
+          </ul>
+        </div>
+
+        <div class="rodape-col">
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="mailto:atelie@studioaura.com.br">atelie@studioaura.com.br</a></li>
+            <li><a href="#" target="_blank" rel="noopener">+55 11 98765-4321</a></li>
+            <li><a href="#contato">Agendar visita</a></li>
+          </ul>
+        </div>
+
+        <div class="rodape-col">
+          <h4>Ateliê</h4>
+          <ul>
+            <li>R. Artur de Azevedo, 1382</li>
+            <li>Pinheiros · SP · 05404-003</li>
+            <li>Seg — Sex · 10h às 19h</li>
+          </ul>
         </div>
       </div>
 
-      <div class="rodape-col">
-        <h4>Studio</h4>
-        <ul>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#processo">Processo</a></li>
-          <li><a href="#portfolio">Projetos</a></li>
-          <li><a href="#depoimentos">Vozes</a></li>
-        </ul>
-      </div>
-
-      <div class="rodape-col">
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="mailto:atelie@studioaura.com.br">atelie@studioaura.com.br</a></li>
-          <li><a href="#" target="_blank" rel="noopener">+55 11 98765-4321</a></li>
-          <li><a href="#contato">Agendar visita</a></li>
-        </ul>
-      </div>
-
-      <div class="rodape-col">
-        <h4>Ateliê</h4>
-        <ul>
-          <li>R. Artur de Azevedo, 1382</li>
-          <li>Pinheiros · SP · 05404-003</li>
-          <li>Seg — Sex · 10h às 19h</li>
-        </ul>
+      <!-- Faixa legal final com direitos autorais, registro profissional e retorno ao topo -->
+      <div class="rodape-bottom">
+        <span>© 2026 Studio Aura. Todos os direitos reservados.</span>
+        <span>CNPJ 12.345.678/0001-23 · CAU A184.392-6</span>
+        <a href="#top">Topo ↑</a>
       </div>
     </div>
+  </footer>
 
-    <div class="rodape-bottom">
-      <span>© 2026 Studio Aura. Todos os direitos reservados.</span>
-      <span>CNPJ 12.345.678/0001-23 · CAU A184.392-6</span>
-      <a href="#top">Topo ↑</a>
-    </div>
-  </div>
-</footer>
+  <!-- Bibliotecas externas que controlam animações ligadas à rolagem -->
+  <!-- GSAP core + ScrollTrigger plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-<!-- GSAP core + ScrollTrigger plugin -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-<script type="module" src="src/js/app.js"></script>
+  <!-- Ponto de entrada dos comportamentos JavaScript da página -->
+  <script type="module" src="src/js/app.js"></script>
 
 </body>
+
 </html>

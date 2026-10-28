@@ -5,6 +5,7 @@
   padding: clamp(8rem, 16vw, 14rem) 0 clamp(6rem, 12vw, 10rem);
   background: var(--bg);
 }
+/* Estrutura interna centralizada do manifesto */
 .manifesto-inner {
   max-width: var(--container);
   margin: 0 auto;
@@ -13,6 +14,7 @@
   grid-template-columns: 1fr;
   gap: 4rem;
 }
+/* Citação principal em tipografia editorial */
 .manifesto-quote {
   font-family: var(--font-display);
   font-weight: 300;
@@ -42,6 +44,7 @@
   font-style: italic;
 }
 
+/* Indicadores de projetos, experiência e localização */
 .manifesto-meta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

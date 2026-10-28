@@ -1,5 +1,6 @@
 /* ==================== MOVIE / VIDEO SCROLL ==================== */
 
+/* Cabeçalho da seção de processo */
 .processo-head {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -9,6 +10,7 @@
 }
 .processo-head .section-lede { justify-self: end; }
 
+/* Divide conteúdo entre mídia fixa e passos narrativos */
 .processo-split {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -16,6 +18,7 @@
   align-items: start;
 }
 
+/* Mídia sticky permanece visível durante a leitura dos passos */
 .processo-media {
   position: sticky;
   top: 8rem;
@@ -64,6 +67,7 @@
   animation: breathe 2s var(--ease-both) infinite;
 }
 
+/* Sequência vertical dos passos do processo */
 .processo-steps {
   display: grid;
   gap: clamp(5rem, 10vw, 10rem);

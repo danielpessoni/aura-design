@@ -1,5 +1,7 @@
+/* Fundo da seção Sobre */
 .sobre { background: var(--bg-raised); }
 
+/* Layout: imagem ao lado do conteúdo editorial */
 .sobre-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -7,6 +9,7 @@
   align-items: start;
 }
 
+/* Moldura da fotografia institucional */
 .sobre-portrait {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -36,6 +39,7 @@
   display: flex; justify-content: space-between;
 }
 
+/* Título principal da apresentação */
 .sobre-content h2 {
   font-family: var(--font-display);
   font-weight: 300;
@@ -62,6 +66,7 @@
   margin-bottom: 2rem;
 }
 
+/* Lista de formação, reconhecimento, publicações e endereço */
 .sobre-credits {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -87,6 +92,7 @@
   letter-spacing: -0.005em;
 }
 
+/* Assinatura decorativa da fundadora */
 .sobre-signature {
   margin-top: 2.5rem;
   font-family: var(--font-display);

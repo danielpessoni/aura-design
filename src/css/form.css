@@ -2,6 +2,7 @@
 
 .contato { background: var(--bg-sunken); }
 
+/* Layout das informações de contato e do formulário */
 .contato-grid {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
@@ -28,11 +29,13 @@
   margin: 0 0 2.5rem;
 }
 
+/* Lista de canais diretos para falar com a empresa */
 .contato-channels {
   display: grid;
   gap: 1rem;
   margin-bottom: 2.5rem;
 }
+/* Cartão reutilizável para WhatsApp, e-mail e endereço */
 .channel {
   display: flex; align-items: center; gap: 1.25rem;
   padding: 1.25rem 1.5rem;
@@ -82,6 +85,7 @@
 .channel.whatsapp:hover .label,
 .channel.whatsapp:hover .value { color: var(--bg); }
 
+/* Horários de atendimento e situação da agenda */
 .contato-meta {
   padding-top: 2rem;
   border-top: 1px solid var(--line);
@@ -105,6 +109,7 @@
   margin-top: 0.4rem;
 }
 
+/* Formulário: superfície, campos e estados de validação */
 /* Form */
 .form {
   background: var(--surface);
@@ -122,6 +127,7 @@
   pointer-events: none;
 }
 
+/* Grupo de rótulo, controle e mensagem de erro */
 .field { display: grid; gap: 0.5rem; position: relative; z-index: 1; }
 .field label {
   font-family: var(--font-mono);
@@ -158,12 +164,14 @@ option { background-color: var(--surface); }
 }
 .field.error .err { opacity: 1; }
 
+/* Agrupa campos lado a lado em telas maiores */
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
+/* Botão principal de envio e estados de interação */
 .form-submit {
   display: inline-flex; align-items: center; justify-content: center;
   gap: 1rem;
@@ -193,6 +201,7 @@ option { background-color: var(--surface); }
   line-height: 1.7;
 }
 
+/* Mensagem exibida após o envio bem-sucedido */
 .form-success {
   display: none;
   padding: 2rem;

@@ -60,6 +60,7 @@
   --t-slow:      900ms var(--ease-out);
 }
 
+/* Modelo de caixa uniforme para previsibilidade de espaçamento */
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -78,10 +79,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Impede que mídias excedam o contêiner disponível */
 img, video { max-width: 100%; display: block; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 
+/* Cores personalizadas do texto selecionado */
 ::selection { background: var(--gold); color: var(--bg); }
 
 /* Grain fixa — performance-safe (fixed + pointer-events:none, nunca em scroll containers) */
@@ -222,6 +225,7 @@ a { color: inherit; text-decoration: none; }
 [data-reveal-lines].in > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 480ms; }
 [data-reveal-lines].in > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 600ms; }
 
+/* Acessibilidade: reduz movimentos para quem prefere menos animações */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -231,6 +235,7 @@ a { color: inherit; text-decoration: none; }
   [data-reveal], [data-reveal-lines] > * { opacity: 1; transform: none; }
 }
 
+/* Botão textual secundário com linha animada */
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 0.75rem;
   font-size: var(--step--1);
