@@ -24,7 +24,7 @@ function initBuildSequence() {
 
   // Para quem prefere menos movimento, os textos ficam visíveis e o vídeo continua em looping.
   if (prefersReducedMotion) {
-    gsap.set(blocks, { opacity: 1, y: 0, x: 0 });
+    gsap.set(blocks, { opacity: 1, y: '-50%', x: 0 });
     video.setAttribute('loop', '');
     video.play().catch(() => {});
     return;
@@ -35,37 +35,46 @@ function initBuildSequence() {
   const setup = () => {
     if (initialized) return;
 
-    const duration = video.duration;
-    if (!duration || !isFinite(duration)) return;
     initialized = true;
 
-    // Interrompe o autoplay: neste módulo, o progresso da rolagem controla cada quadro.
-    try {
-      video.pause();
-      video.currentTime = 0;
-    } catch (error) {}
+    let pendingVideoTime = null;
+    const applyPendingVideoSeek = () => {
+      if (pendingVideoTime === null || video.readyState < 2 || video.seeking) return;
 
-    const scrollLength = () => {
-      const multiplier = window.matchMedia('(max-width: 820px)').matches ? 2.5 : 5;
-      return Math.round(window.innerHeight * multiplier);
+      const targetTime = pendingVideoTime;
+      pendingVideoTime = null;
+      if (Math.abs(video.currentTime - targetTime) > 0.01) {
+        video.currentTime = targetTime;
+      }
     };
+
+    const seekVideoToProgress = videoProgress => {
+      const duration = video.duration;
+      if (!Number.isFinite(duration) || duration <= 0) return;
+      const lastFrameTime = Math.max(0, duration - 0.04);
+      pendingVideoTime = Math.min(lastFrameTime, Math.max(0, videoProgress * duration));
+      applyPendingVideoSeek();
+    };
+    video.addEventListener('seeked', applyPendingVideoSeek);
+    video.addEventListener('loadeddata', applyPendingVideoSeek);
+    video.addEventListener('canplay', applyPendingVideoSeek);
 
     const timeline = gsap.timeline({
       defaults: { ease: 'power2.out' },
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => '+=' + scrollLength(),
+        end: () => {
+          const multiplier = window.matchMedia('(max-width: 820px)').matches ? 2.5 : 5;
+          return '+=' + Math.round(stage.getBoundingClientRect().height * multiplier);
+        },
         pin: stage,
         pinSpacing: true,
-        scrub: 0.6,
+        scrub: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          const time = self.progress * duration;
-          if (!isNaN(time) && video.readyState >= 2) {
-            video.currentTime = time;
-          }
+          seekVideoToProgress(self.progress);
           if (progress) {
             progress.textContent = String(Math.round(self.progress * 100)).padStart(2, '0') + '%';
           }
@@ -104,24 +113,31 @@ function initBuildSequence() {
     );
 
     timeline.set({}, {}, 1);
+    const syncVideoToScroll = () => {
+      video.removeAttribute('autoplay');
+      video.pause();
+      seekVideoToProgress(timeline.scrollTrigger.progress);
+    };
+    video.addEventListener('loadeddata', syncVideoToScroll, { once: true });
+    video.addEventListener('canplay', syncVideoToScroll, { once: true });
+    if (video.readyState >= 2) {
+      syncVideoToScroll();
+    } else {
+      video.load();
+    }
+
     ScrollTrigger.refresh();
   };
 
-  // Espera o primeiro quadro para que o vídeo esteja pronto antes do scroll.
-  if (video.readyState >= 2 && !isNaN(video.duration)) {
-    setup();
-  } else {
-    video.addEventListener('loadeddata', setup, { once: true });
-    video.addEventListener('canplay', setup, { once: true });
-    video.load();
-  }
+  setup();
 }
 
 export function initMovie() {
   initVideoFallback();
-  if (document.readyState === 'complete') {
-    initBuildSequence();
-  } else {
-    window.addEventListener('load', initBuildSequence, { once: true });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBuildSequence, { once: true });
+    return;
   }
+
+  initBuildSequence();
 }
