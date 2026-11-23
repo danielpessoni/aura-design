@@ -45,12 +45,17 @@ function initBuildSequence() {
       video.currentTime = 0;
     } catch (error) {}
 
+    const scrollLength = () => {
+      const multiplier = window.matchMedia('(max-width: 820px)').matches ? 2.5 : 5;
+      return Math.round(window.innerHeight * multiplier);
+    };
+
     const timeline = gsap.timeline({
       defaults: { ease: 'power2.out' },
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => '+=' + Math.round(window.innerHeight * 5),
+        end: () => '+=' + scrollLength(),
         pin: stage,
         pinSpacing: true,
         scrub: 0.6,
