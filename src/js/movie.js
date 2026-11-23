@@ -45,15 +45,12 @@ function initBuildSequence() {
       video.currentTime = 0;
     } catch (error) {}
 
-    const scrollLength = () => Math.round(window.innerHeight * 5);
-
-    // A timeline usa o scroll como controle de tempo dos textos e do vídeo.
     const timeline = gsap.timeline({
       defaults: { ease: 'power2.out' },
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => '+=' + scrollLength(),
+        end: () => '+=' + Math.round(window.innerHeight * 5),
         pin: stage,
         pinSpacing: true,
         scrub: 0.6,
@@ -105,7 +102,7 @@ function initBuildSequence() {
     ScrollTrigger.refresh();
   };
 
-  // Espera o primeiro quadro para iniciar a sincronização com o vídeo.
+  // Espera o primeiro quadro para que o vídeo esteja pronto antes do scroll.
   if (video.readyState >= 2 && !isNaN(video.duration)) {
     setup();
   } else {
@@ -117,5 +114,9 @@ function initBuildSequence() {
 
 export function initMovie() {
   initVideoFallback();
-  initBuildSequence();
+  if (document.readyState === 'complete') {
+    initBuildSequence();
+  } else {
+    window.addEventListener('load', initBuildSequence, { once: true });
+  }
 }
