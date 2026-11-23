@@ -15,7 +15,7 @@ O produto entregue pela IA opera como uma interface dinâmica que emula a experi
 *   **Portfólio Assimétrico:** Exibição de projetos autorais dispostos em um grid irregular composto por diferentes proporções visuais e efeitos fluidos de aproximação (`scale`) e saturação ao passar o mouse.
 *   **Hairline de Progresso:** Um indicador minimalista dourado no topo da página que mapeia e exibe visualmente o avanço da leitura do usuário à medida que a página sofre rolagem.
 *   **Menu Mobile e Navegação Responsiva:** Estrutura adaptável para dispositivos menores com botão de menu e fechamento automático ao clicar em links.
-*   **Validação do Formulário de Contato:** Campos com feedback visual e validação assíncrona simulada para envio de proposta.
+*   **Validação do Formulário de Contato:** Campos com feedback visual e validação simulada para o envio da proposta.
 
 ---
 
@@ -57,7 +57,6 @@ A estrutura do repositório foi reorganizada para refletir uma abordagem mais pr
 │       ├── movie.js
 │       ├── scroll.js
 │       └── startLoader.js
-└──
 ```
 
 ### Organização por responsabilidade
@@ -73,27 +72,22 @@ A estrutura do repositório foi reorganizada para refletir uma abordagem mais pr
 *   **HTML5:** Estruturação semântica da aplicação.
 *   **CSS3 Avançado:** Estilização baseada em CSS Grid, Flexbox, posicionamento adesivo (`sticky`), variáveis nativas e consultas de mídia responsivas.
 *   **JavaScript (Vanilla JS em módulos):** Lógica nativa para controle de progresso, navegação, carregamento e interações de vídeo e formulário.
+*   **GSAP + ScrollTrigger:** Animações da sequência criativa e controle da reprodução de vídeo durante a rolagem, carregados por CDN.
+*   **Recursos externos:** Google Fonts para tipografia e Picsum para o retrato ilustrativo da arquiteta.
 *   **IA & GitHub Skills Integration:** Geração automatizada via prompts a partir do briefing da cliente, utilizando as habilidades de automação *taste-skill*, *minimalist-skill* e *soft-skill*.
 
 ---
 
 ## ▶️ Como Rodar Localmente
 
-Como é um projeto estático, não é necessário instalar dependências nem configurar build tools.
+Como é um projeto estático, não é necessário instalar dependências nem configurar build tools. Como o JavaScript usa módulos ES, recomenda-se servir os arquivos por um servidor local.
 
-### Opção 1: abrir direto no navegador
-
-1. Acesse a pasta do projeto.
-2. Abra o arquivo `index.html` em qualquer navegador moderno.
-3. A página será carregada diretamente.
-
-### Opção 2: com VS Code / Live Server
+### Com VS Code / Live Server
 
 1. Abra a pasta do projeto no VS Code.
 2. Instale a extensão **Live Server**.
 3. Clique com o botão direito em `index.html` e selecione **Open with Live Server**.
 
----
 
 ## 🎯 Foco no Projeto
 
