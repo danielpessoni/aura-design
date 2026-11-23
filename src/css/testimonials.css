@@ -101,3 +101,16 @@
   text-transform: none;
   color: var(--fg);
 }
+
+@media (max-width: 820px) {
+  .depoimento,
+  .depoimento:nth-child(even) {
+    padding: 0;
+    text-align: left;
+    justify-items: start;
+  }
+  .depoimento:nth-child(even) .depoimento-quote::before {
+    left: -0.4em;
+    right: auto;
+  }
+}

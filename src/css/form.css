@@ -220,3 +220,20 @@ option { background-color: var(--surface); }
   color: var(--gold);
 }
 .form-success p { color: var(--fg-soft); margin: 0; }
+
+@media (max-width: 1024px) {
+  .contato-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .contato-grid > *,
+  .contato-channels > *,
+  .channel > span:last-child {
+    min-width: 0;
+  }
+  .channel > span:last-child { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 820px) {
+  .field-row { grid-template-columns: 1fr; }
+}
